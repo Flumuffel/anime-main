@@ -16,7 +16,7 @@
     --------------------*/
     $(window).on('load', function () {
         $(".loader").fadeOut();
-        $("#preloder").delay(200).fadeOut("slow");
+        $("#preloder").delay(300).fadeOut("slow");
 
         /*------------------
             FIlter
@@ -34,6 +34,7 @@
     /*------------------
         Background Set
     --------------------*/
+    setTimeout(function() {
     $('.set-bg').each(function () {
         var bg = $(this).data('setbg');
         $(this).css('background-image', 'url(' + bg + ')');
@@ -49,7 +50,7 @@
             $('#search-input').val('');
         });
     });
-
+    }, 550)
     /*------------------
 		Navigation
 	--------------------*/
@@ -60,22 +61,28 @@
 
     /*------------------
 		Hero Slider
-	--------------------*/
+    --------------------*/
+    
     var hero_s = $(".hero__slider");
-    hero_s.owlCarousel({
-        loop: true,
-        margin: 0,
-        items: 1,
-        dots: true,
-        nav: true,
-        navText: ["<span class='arrow_carrot-left'></span>", "<span class='arrow_carrot-right'></span>"],
-        animateOut: 'fadeOut',
-        animateIn: 'fadeIn',
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true,
-        mouseDrag: false
-    });
+ 
+    setTimeout(function() {
+        hero_s.owlCarousel({
+            loop: true,
+            margin: 0,
+            items: 1,
+            dots: true,
+            nav: true,
+            navText: ["<span class='arrow_carrot-left'></span>", "<span class='arrow_carrot-right'></span>"],
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn',
+            smartSpeed: 1200,
+            autoHeight: false,
+            autoplay: true,
+            mouseDrag: false
+        });
+    }, 550)
+
+
 
     /*------------------
         Video Player
