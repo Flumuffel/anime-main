@@ -122,20 +122,11 @@
                             if(count >= 3) {
                                return false
                             }
-                            // Count
-                            console.log(count)
-
-                            //Title
-                            console.log(anime.title.userPreferred)
 
                             //Desc
                             var desc = anime.description
                             var char = 50
                             desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
-                            console.log(desc)
-
-                            //Banner
-                            console.log(anime.bannerImage)
 
                             // New Hero
                             let newHero = document.createElement('div')
@@ -177,8 +168,6 @@
                             //Watch now
                             heroText.innerHTML += '<a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>'
 
-                            console.log(newHero)
-
                             slider.appendChild(newHero)
 
                             count++;
@@ -213,6 +202,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
+
+                    <!-- TRENDING -->
+
                     <div class="trending__product">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -325,7 +317,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- POPULAR -->
+
                     <div class="popular__product">
+                        <!-- \/ Title + View All \/ -->
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
@@ -338,7 +334,132 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- \/ CONTENT \/ -->
                         <div class="row">
+                            <script>
+                                queryFetch(`
+                                query {
+                                    Page(perPage: 12){
+                                        media(type: ANIME, isAdult: false, status: FINISHED, popularity_greater:5000, sort: POPULARITY_DESC){
+                                            id
+                                            title{
+                                                romaji
+                                                english
+                                                native
+                                                userPreferred
+                                            }
+                                            description
+                                            genres
+                                            startDate {
+                                                year
+                                                month
+                                                day
+                                            }
+                                            format
+                                            popularity
+                                            coverImage {
+                                                extraLarge
+                                                large
+                                                medium
+                                                color
+                                            }
+                                            bannerImage
+                                            status
+                                            siteUrl
+                                            episodes
+                                            nextAiringEpisode{
+                                                episode
+                                            }
+                                            stats {
+                                                statusDistribution {
+                                                    amount
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                `, { }).then(data => {
+                                    var json = JSON.parse(JSON.stringify(data.data, null, 4));
+                                    var choose = $('.popular__product > .row')[1]
+                                    var count = 0;
+                                    var max = 6
+                                    json.Page.media.every(anime => {
+                                        if (anime.bannerImage != null) {
+                                            if(count >= max) {
+                                               return false
+                                            }
+                
+                                            //Desc
+                                            var desc = anime.description
+                                            var char = 50
+                                            desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
+                
+                                            // New Popular
+                                            let newPopular = document.createElement('div')
+                                            newPopular.className = "col-lg-4 col-md-6 col-sm-6"
+                    
+                                                // Item
+                                                let item = document.createElement('div')
+                                                item.className = "product__item"
+                                                newPopular.appendChild(item)
+                        
+                                                    // Picture
+                                                    let pic = document.createElement('div')
+                                                    pic.className = "product__item__pic set-bg"
+                                                    pic.setAttribute('data-setbg', anime.coverImage.large)
+                                                    item.appendChild(pic)
+
+                                                        // Episode
+                                                        let ep = document.createElement('div')
+                                                        ep.className = "ep"
+                                                        let eps = anime.episodes || '?'
+                                                        if(anime.nextAiringEpisode != null){
+                                                            ep.innerHTML = (anime.nextAiringEpisode.episode-1) + " / " + eps
+                                                        } else {
+                                                            ep.innerHTML = anime.episodes + " / " + eps
+                                                        }
+                                                        pic.appendChild(ep)
+
+                                                        // Comment
+                                                        let format = document.createElement('div')
+                                                        format.className = "comment"
+                                                        format.innerHTML = " " + anime.format
+                                                        pic.appendChild(format)
+
+                                                        // Views
+                                                        let views = document.createElement('div')
+                                                        views.className = "view"
+                                                        views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(anime.stats.statusDistribution[2].amount) + '</div>'
+                                                        pic.appendChild(views)
+
+                                                    // Meta
+                                                    let meta = document.createElement('div')
+                                                    meta.className = "product__item__text"
+                                                    item.appendChild(meta)
+
+                                                        // Meta Tags
+                                                        let mtags = document.createElement('ul')
+                                                        anime.genres.every(genre => {
+                                                            mtags.innerHTML += "<li>"+genre+"</li>"
+                                                            return true
+                                                        })
+                                                        meta.appendChild(mtags)
+
+                                                        // Title
+                                                        let title = document.createElement('h5')
+                                                        title.innerHTML = '<a href="'+anime.siteUrl+'">'+anime.title.userPreferred+'</a>'
+                                                        meta.appendChild(title)
+                
+                                            choose.appendChild(newPopular)
+                
+                                            count++;
+                                            return true
+                                        }
+                                        return true
+                                    })
+                                })
+                            </script>
+                            <!--
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="img/popular/popular-1.jpg">
@@ -355,89 +476,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-2.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Kizumonogatari III: Reiket su-hen</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-3.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Shirogane Tamashii hen Kouhan sen</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-4.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Rurouni Kenshin: Meiji Kenkaku Romantan</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-5.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Mushishi Zoku Shou 2nd Season</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-6.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Monogatari Series: Second Season</a></h5>
-                                    </div>
-                                </div>
-                            </div>
+                        -->
                         </div>
                     </div>
+
+                    <!-- RECENT ADDED -->
+
                     <div class="recent__product">
+                        <!-- \/ Title + View All \/ -->
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
@@ -450,215 +496,131 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- \/ Recent added \/ -->
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/recent/recent-1.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Great Teacher Onizuka</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/recent/recent-2.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Fate/stay night Movie: Heaven's Feel - II. Lost</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/recent/recent-3.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Mushishi Zoku Shou: Suzu no Shizuku</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/recent/recent-4.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Fate/Zero 2nd Season</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/recent/recent-5.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Kizumonogatari II: Nekket su-hen</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/recent/recent-6.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="live__product">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                <div class="section-title">
-                                    <h4>Live Action</h4>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                <div class="btn__all">
-                                    <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/live/live-1.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Shouwa Genroku Rakugo Shinjuu</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/live/live-2.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Mushishi Zoku Shou 2nd Season</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/live/live-3.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Mushishi Zoku Shou: Suzu no Shizuku</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/live/live-4.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/live/live-5.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Fate/stay night Movie: Heaven's Feel - II. Lost</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/live/live-6.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Kizumonogatari II: Nekketsu-hen</a></h5>
-                                    </div>
-                                </div>
-                            </div>
+                            <script>
+                                queryFetch(`
+                                query {
+                                    Page(perPage: 12){
+                                        media(type: ANIME, isAdult: false, status: RELEASING, popularity_greater:5000, sort: START_DATE_DESC){
+                                            id
+                                            title{
+                                                romaji
+                                                english
+                                                native
+                                                userPreferred
+                                            }
+                                            description
+                                            genres
+                                            startDate {
+                                                year
+                                                month
+                                                day
+                                            }
+                                            format
+                                            popularity
+                                            coverImage {
+                                                extraLarge
+                                                large
+                                                medium
+                                                color
+                                            }
+                                            bannerImage
+                                            status
+                                            siteUrl
+                                            episodes
+                                            nextAiringEpisode{
+                                                episode
+                                            }
+                                            stats {
+                                                statusDistribution {
+                                                    amount
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                `, { }).then(data => {
+                                    var json = JSON.parse(JSON.stringify(data.data, null, 4));
+                                    var choose = $('.recent__product > .row')[1]
+                                    var count = 0;
+                                    var max = 6
+                                    json.Page.media.every(anime => {
+                                        if (anime.bannerImage != null) {
+                                            if(count >= max) {
+                                               return false
+                                            }
+                
+                                            //Desc
+                                            var desc = anime.description
+                                            var char = 50
+                                            desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
+                
+                                            // New Popular
+                                            let newPopular = document.createElement('div')
+                                            newPopular.className = "col-lg-4 col-md-6 col-sm-6"
+                    
+                                                // Item
+                                                let item = document.createElement('div')
+                                                item.className = "product__item"
+                                                newPopular.appendChild(item)
+                        
+                                                    // Picture
+                                                    let pic = document.createElement('div')
+                                                    pic.className = "product__item__pic set-bg"
+                                                    pic.setAttribute('data-setbg', anime.coverImage.large)
+                                                    item.appendChild(pic)
+
+                                                        // Episode
+                                                        let ep = document.createElement('div')
+                                                        ep.className = "ep"
+                                                        let eps = anime.episodes || '?'
+                                                        if(anime.nextAiringEpisode != null){
+                                                            ep.innerHTML = (anime.nextAiringEpisode.episode-1) + " / " + eps
+                                                        } else {
+                                                            ep.innerHTML = anime.episodes + " / " + eps
+                                                        }
+                                                        pic.appendChild(ep)
+
+                                                        // Comment
+                                                        let format = document.createElement('div')
+                                                        format.className = "comment"
+                                                        format.innerHTML = " " + anime.format
+                                                        pic.appendChild(format)
+
+                                                        // Views
+                                                        let views = document.createElement('div')
+                                                        views.className = "view"
+                                                        views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(anime.stats.statusDistribution[2].amount) + '</div>'
+                                                        pic.appendChild(views)
+
+                                                    // Meta
+                                                    let meta = document.createElement('div')
+                                                    meta.className = "product__item__text"
+                                                    item.appendChild(meta)
+
+                                                        // Meta Tags
+                                                        let mtags = document.createElement('ul')
+                                                        anime.genres.every(genre => {
+                                                            mtags.innerHTML += "<li>"+genre+"</li>"
+                                                            return true
+                                                        })
+                                                        meta.appendChild(mtags)
+
+                                                        // Title
+                                                        let title = document.createElement('h5')
+                                                        title.innerHTML = '<a href="'+anime.siteUrl+'">'+anime.title.userPreferred+'</a>'
+                                                        meta.appendChild(title)
+                
+                                            choose.appendChild(newPopular)
+                
+                                            count++;
+                                            return true
+                                        }
+                                        return true
+                                    })
+                                })
+                            </script>
                         </div>
                     </div>
                 </div>

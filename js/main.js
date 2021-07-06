@@ -16,7 +16,7 @@
     --------------------*/
     $(window).on('load', function () {
         $(".loader").fadeOut();
-        $("#preloder").delay(300).fadeOut("slow");
+        $("#preloder").delay(500).fadeOut("slow");
 
         /*------------------
             FIlter
@@ -50,7 +50,7 @@
             $('#search-input').val('');
         });
     });
-    }, 550)
+    }, 650)
     /*------------------
 		Navigation
 	--------------------*/
@@ -80,7 +80,7 @@
             autoplay: true,
             mouseDrag: false
         });
-    }, 550)
+    }, 600)
 
 
 
