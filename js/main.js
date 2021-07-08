@@ -42,6 +42,7 @@
 
     setTimeout(function() {
         $('.toast').toast('show')
+        console.log("Show Nitifications")
     }, 700)
 
     // Search model
