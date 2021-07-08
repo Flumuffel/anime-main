@@ -59,7 +59,7 @@ function numFormatter(num) {
             if(setquery != "hero") {
                 showAnime(option.query, option.input, 8)
             } else {
-                showHero(option.query, option.input, 3)
+                showHero(option.query, option.input, 4)
             }
 
         });

@@ -24,6 +24,7 @@ var querys = {
                 }
                 bannerImage
                 status
+                siteUrl
                 episodes
             }
         }
@@ -253,7 +254,7 @@ function showHero(query, slider, show) {
                 heroText.appendChild(description)
                 
                 //Watch now
-                heroText.innerHTML += '<a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>'
+                heroText.innerHTML += '<a href="'+anime.siteUrl+'"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>'
 
                 slider.appendChild(newHero)
 
