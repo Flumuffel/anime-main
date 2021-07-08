@@ -16,7 +16,7 @@
     --------------------*/
     $(window).on('load', function () {
         $(".loader").fadeOut();
-        $("#preloder").delay(500).fadeOut("slow");
+        $("#preloder").delay(550).fadeOut("slow");
 
         /*------------------
             FIlter
@@ -39,6 +39,10 @@
         var bg = $(this).data('setbg');
         $(this).css('background-image', 'url(' + bg + ')');
     });
+
+    setTimeout(function() {
+        $('.toast').toast('show')
+    }, 700)
 
     // Search model
     $('.search-switch').on('click', function () {
@@ -80,7 +84,7 @@
             autoplay: true,
             mouseDrag: false
         });
-    }, 600)
+    }, 700)
 
 
 
