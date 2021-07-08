@@ -26,6 +26,8 @@
 </head>
 
 <body>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/anilist-querys.js"></script>
     <script src="js/anilist.js"></script>
 
     <!-- Page Preloder -->
@@ -80,103 +82,8 @@
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
-            <div class="hero__slider owl-carousel">
+            <div class="hero__slider owl-carousel set-query" data-setquery="hero">
             </div>
-            <script>
-                queryFetch(`
-                query {
-                    Page(perPage: 12){
-                        media(type: ANIME, isAdult: false, status: RELEASING, popularity_greater:5000, sort: START_DATE_DESC){
-                            id
-                            title{
-                                romaji
-                                english
-                                native
-                                userPreferred
-                            }
-                            description
-                            genres
-                            startDate {
-                                year
-                                month
-                                day
-                            }
-                            coverImage {
-                                extraLarge
-                                large
-                                medium
-                                color
-                            }
-                            bannerImage
-                            status
-                            episodes
-                        }
-                    }
-                }
-                `, { }).then(data => {
-                    var json = JSON.parse(JSON.stringify(data.data, null, 4));
-                    var slider = document.getElementsByClassName('hero__slider')[0]
-                    var count = 0;
-                    json.Page.media.every(anime => {
-                        if (anime.bannerImage != null) {
-                            if(count >= 3) {
-                               return false
-                            }
-
-                            //Desc
-                            var desc = anime.description
-                            var char = 50
-                            desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
-
-                            // New Hero
-                            let newHero = document.createElement('div')
-                            newHero.className = "hero__items set-bg"
-                            newHero.setAttribute('data-setbg', anime.bannerImage)
-                            newHero.setAttribute('style', 'box-shadow:inset 0 0 0 2000px rgba(46, 49, 49, 0.4)')
-
-                            // Row
-                            let row = document.createElement('div')
-                            row.className = "row"
-                            newHero.appendChild(row)
-
-                            // Collum
-                            let col = document.createElement('div')
-                            col.className = "col-lg-6"
-                            row.appendChild(col)
-
-                            // Hero Text
-                            let heroText = document.createElement('div')
-                            heroText.className = "hero__text"
-                            col.appendChild(heroText)
-
-                            // Label
-                            let label = document.createElement('div')
-                            label.className = "label"
-                            label.innerHTML = anime.genres[Math.floor(Math.random() * anime.genres.length)]
-                            heroText.appendChild(label)
-                            
-                            // Title
-                            let title = document.createElement('h2')
-                            title.innerHTML = anime.title.userPreferred
-                            heroText.appendChild(title)
-
-                            // Desc
-                            let description = document.createElement('p')
-                            description.innerHTML = desc
-                            heroText.appendChild(description)
-                            
-                            //Watch now
-                            heroText.innerHTML += '<a href="#"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>'
-
-                            slider.appendChild(newHero)
-
-                            count++;
-                            return true
-                        }
-                        return true
-                    })
-                })
-            </script>
             <!-- EXAMPLE OF HERO
 
                 <div class="hero__items set-bg" data-setbg="img/hero/hero-2.jpg"
@@ -201,11 +108,11 @@
     <section class="product spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
 
                     <!-- TRENDING -->
 
-                    <div class="trending__product">
+                    <div class="trending__product" style="display: none;">
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
@@ -320,7 +227,7 @@
 
                     <!-- POPULAR -->
 
-                    <div class="popular__product">
+                    <div class="popular__product set-query" data-setquery="popular">
                         <!-- \/ Title + View All \/ -->
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -336,129 +243,6 @@
                         </div>
                         <!-- \/ CONTENT \/ -->
                         <div class="row">
-                            <script>
-                                queryFetch(`
-                                query {
-                                    Page(perPage: 12){
-                                        media(type: ANIME, isAdult: false, status: FINISHED, popularity_greater:5000, sort: POPULARITY_DESC){
-                                            id
-                                            title{
-                                                romaji
-                                                english
-                                                native
-                                                userPreferred
-                                            }
-                                            description
-                                            genres
-                                            startDate {
-                                                year
-                                                month
-                                                day
-                                            }
-                                            format
-                                            popularity
-                                            coverImage {
-                                                extraLarge
-                                                large
-                                                medium
-                                                color
-                                            }
-                                            bannerImage
-                                            status
-                                            siteUrl
-                                            episodes
-                                            nextAiringEpisode{
-                                                episode
-                                            }
-                                            stats {
-                                                statusDistribution {
-                                                    amount
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                `, { }).then(data => {
-                                    var json = JSON.parse(JSON.stringify(data.data, null, 4));
-                                    var choose = $('.popular__product > .row')[1]
-                                    var count = 0;
-                                    var max = 6
-                                    json.Page.media.every(anime => {
-                                        if (anime.bannerImage != null) {
-                                            if(count >= max) {
-                                               return false
-                                            }
-                
-                                            //Desc
-                                            var desc = anime.description
-                                            var char = 50
-                                            desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
-                
-                                            // New Popular
-                                            let newPopular = document.createElement('div')
-                                            newPopular.className = "col-lg-4 col-md-6 col-sm-6"
-                    
-                                                // Item
-                                                let item = document.createElement('div')
-                                                item.className = "product__item"
-                                                newPopular.appendChild(item)
-                        
-                                                    // Picture
-                                                    let pic = document.createElement('div')
-                                                    pic.className = "product__item__pic set-bg"
-                                                    pic.setAttribute('data-setbg', anime.coverImage.large)
-                                                    item.appendChild(pic)
-
-                                                        // Episode
-                                                        let ep = document.createElement('div')
-                                                        ep.className = "ep"
-                                                        let eps = anime.episodes || '?'
-                                                        if(anime.nextAiringEpisode != null){
-                                                            ep.innerHTML = (anime.nextAiringEpisode.episode-1) + " / " + eps
-                                                        } else {
-                                                            ep.innerHTML = anime.episodes + " / " + eps
-                                                        }
-                                                        pic.appendChild(ep)
-
-                                                        // Comment
-                                                        let format = document.createElement('div')
-                                                        format.className = "comment"
-                                                        format.innerHTML = " " + anime.format
-                                                        pic.appendChild(format)
-
-                                                        // Views
-                                                        let views = document.createElement('div')
-                                                        views.className = "view"
-                                                        views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(anime.stats.statusDistribution[2].amount) + '</div>'
-                                                        pic.appendChild(views)
-
-                                                    // Meta
-                                                    let meta = document.createElement('div')
-                                                    meta.className = "product__item__text"
-                                                    item.appendChild(meta)
-
-                                                        // Meta Tags
-                                                        let mtags = document.createElement('ul')
-                                                        anime.genres.every(genre => {
-                                                            mtags.innerHTML += "<li>"+genre+"</li>"
-                                                            return true
-                                                        })
-                                                        meta.appendChild(mtags)
-
-                                                        // Title
-                                                        let title = document.createElement('h5')
-                                                        title.innerHTML = '<a href="'+anime.siteUrl+'">'+anime.title.userPreferred+'</a>'
-                                                        meta.appendChild(title)
-                
-                                            choose.appendChild(newPopular)
-                
-                                            count++;
-                                            return true
-                                        }
-                                        return true
-                                    })
-                                })
-                            </script>
                             <!--
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
@@ -482,7 +266,7 @@
 
                     <!-- RECENT ADDED -->
 
-                    <div class="recent__product">
+                    <div class="recent__product set-query" data-setquery="recent">
                         <!-- \/ Title + View All \/ -->
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
@@ -498,133 +282,10 @@
                         </div>
                         <!-- \/ Recent added \/ -->
                         <div class="row">
-                            <script>
-                                queryFetch(`
-                                query {
-                                    Page(perPage: 12){
-                                        media(type: ANIME, isAdult: false, status: RELEASING, popularity_greater:5000, sort: START_DATE_DESC){
-                                            id
-                                            title{
-                                                romaji
-                                                english
-                                                native
-                                                userPreferred
-                                            }
-                                            description
-                                            genres
-                                            startDate {
-                                                year
-                                                month
-                                                day
-                                            }
-                                            format
-                                            popularity
-                                            coverImage {
-                                                extraLarge
-                                                large
-                                                medium
-                                                color
-                                            }
-                                            bannerImage
-                                            status
-                                            siteUrl
-                                            episodes
-                                            nextAiringEpisode{
-                                                episode
-                                            }
-                                            stats {
-                                                statusDistribution {
-                                                    amount
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                `, { }).then(data => {
-                                    var json = JSON.parse(JSON.stringify(data.data, null, 4));
-                                    var choose = $('.recent__product > .row')[1]
-                                    var count = 0;
-                                    var max = 6
-                                    json.Page.media.every(anime => {
-                                        if (anime.bannerImage != null) {
-                                            if(count >= max) {
-                                               return false
-                                            }
-                
-                                            //Desc
-                                            var desc = anime.description
-                                            var char = 50
-                                            desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
-                
-                                            // New Popular
-                                            let newPopular = document.createElement('div')
-                                            newPopular.className = "col-lg-4 col-md-6 col-sm-6"
-                    
-                                                // Item
-                                                let item = document.createElement('div')
-                                                item.className = "product__item"
-                                                newPopular.appendChild(item)
-                        
-                                                    // Picture
-                                                    let pic = document.createElement('div')
-                                                    pic.className = "product__item__pic set-bg"
-                                                    pic.setAttribute('data-setbg', anime.coverImage.large)
-                                                    item.appendChild(pic)
-
-                                                        // Episode
-                                                        let ep = document.createElement('div')
-                                                        ep.className = "ep"
-                                                        let eps = anime.episodes || '?'
-                                                        if(anime.nextAiringEpisode != null){
-                                                            ep.innerHTML = (anime.nextAiringEpisode.episode-1) + " / " + eps
-                                                        } else {
-                                                            ep.innerHTML = anime.episodes + " / " + eps
-                                                        }
-                                                        pic.appendChild(ep)
-
-                                                        // Comment
-                                                        let format = document.createElement('div')
-                                                        format.className = "comment"
-                                                        format.innerHTML = " " + anime.format
-                                                        pic.appendChild(format)
-
-                                                        // Views
-                                                        let views = document.createElement('div')
-                                                        views.className = "view"
-                                                        views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(anime.stats.statusDistribution[2].amount) + '</div>'
-                                                        pic.appendChild(views)
-
-                                                    // Meta
-                                                    let meta = document.createElement('div')
-                                                    meta.className = "product__item__text"
-                                                    item.appendChild(meta)
-
-                                                        // Meta Tags
-                                                        let mtags = document.createElement('ul')
-                                                        anime.genres.every(genre => {
-                                                            mtags.innerHTML += "<li>"+genre+"</li>"
-                                                            return true
-                                                        })
-                                                        meta.appendChild(mtags)
-
-                                                        // Title
-                                                        let title = document.createElement('h5')
-                                                        title.innerHTML = '<a href="'+anime.siteUrl+'">'+anime.title.userPreferred+'</a>'
-                                                        meta.appendChild(title)
-                
-                                            choose.appendChild(newPopular)
-                
-                                            count++;
-                                            return true
-                                        }
-                                        return true
-                                    })
-                                })
-                            </script>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="col-lg-4 col-md-6 col-sm-8" style="display: none;">
                     <div class="product__sidebar">
                         <div class="product__sidebar__view">
                             <div class="section-title">
@@ -781,7 +442,6 @@
     <!-- Search model end -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/player.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
