@@ -86,7 +86,7 @@
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Home</a>
                         <a href="/anime">Anime</a>
-                        <span><?php echo str_replace('%20', ' ', $params[2]); ?></span>
+                        <span><?php echo str_replace('+', ' ', $params[2]); ?></span>
                     </div>
                 </div>
             </div>
