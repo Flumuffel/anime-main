@@ -5,10 +5,16 @@
   #split the path by '/'
   $params = explode("/", $request);
 
-  $safe_pages = array("home");
+  $safe_pages = array("home", "anime");
    
   if(in_array($params[1], $safe_pages)) {
-    include($params[1].".php");
+    switch($params[1]) {
+      case 'anime':
+        include('anime-details.php');
+        break;
+      default:
+        include($params[1].".php");
+    }
   } else {
     header("HTTP/1.1 301 Moved Permanently"); 
     header("Location: /home"); 
