@@ -10,5 +10,7 @@
   if(in_array($params[0], $safe_pages)) {
     include($params[0].".php");
   } else {
-    header("Location: /home");
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("Location: /home"); 
+    exit;
   }
