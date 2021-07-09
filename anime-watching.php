@@ -139,7 +139,7 @@
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="img/anime/review-1.jpg" alt="">
+                                <img src="/img/anime/review-1.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
                                 <h6>Chris Curry - <span>1 Hour ago</span></h6>
@@ -149,7 +149,7 @@
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="img/anime/review-2.jpg" alt="">
+                                <img src="/img/anime/review-2.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
                                 <h6>Lewis Mann - <span>5 Hour ago</span></h6>
@@ -158,7 +158,7 @@
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="img/anime/review-3.jpg" alt="">
+                                <img src="/img/anime/review-3.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
                                 <h6>Louis Tyler - <span>20 Hour ago</span></h6>
@@ -167,7 +167,7 @@
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="img/anime/review-4.jpg" alt="">
+                                <img src="/img/anime/review-4.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
                                 <h6>Chris Curry - <span>1 Hour ago</span></h6>
@@ -177,7 +177,7 @@
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="img/anime/review-5.jpg" alt="">
+                                <img src="/img/anime/review-5.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
                                 <h6>Lewis Mann - <span>5 Hour ago</span></h6>
@@ -186,7 +186,7 @@
                         </div>
                         <div class="anime__review__item">
                             <div class="anime__review__item__pic">
-                                <img src="img/anime/review-6.jpg" alt="">
+                                <img src="/img/anime/review-6.jpg" alt="">
                             </div>
                             <div class="anime__review__item__text">
                                 <h6>Louis Tyler - <span>20 Hour ago</span></h6>
@@ -218,15 +218,15 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="footer__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="/"><img src="/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="footer__nav">
                         <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.html">Categories</a></li>
-                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li class="active"><a href="/">Homepage</a></li>
+                            <li><a href="/categories.html">Categories</a></li>
+                            <li><a href="/blog.html">Our Blog</a></li>
                             <li><a href="#">Contacts</a></li>
                         </ul>
                     </div>
@@ -254,14 +254,14 @@
     <!-- Search model end -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
 
 </body>
 
