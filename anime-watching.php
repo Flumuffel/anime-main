@@ -85,7 +85,7 @@
                         <a href="/anime">Anime</a>
                         <a href="/anime/<?php echo $params[2]; ?>"><?php echo $params[2]; ?></a>
                         <a href="">Episode</a>
-                        <span><?php echo $params[3]; ?></span>
+                        <span><?php echo $params[4]; ?></span>
                     </div>
                 </div>
             </div>
