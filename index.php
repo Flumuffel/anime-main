@@ -10,7 +10,11 @@
   if(in_array($params[1], $safe_pages)) {
     switch($params[1]) {
       case 'anime':
-        include('anime-details.php');
+        if($params[3] == "episode"){
+          include('anime-watching.php');
+        } else {
+          include('anime-details.php');
+        }
         break;
       default:
         include($params[1].".php");
