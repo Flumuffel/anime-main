@@ -1,3 +1,6 @@
+<?php
+    include(__dir__.'/search/search_code.php');
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -65,7 +68,7 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                        <a class="search-switch"><span class="icon_search"></span></a>
                         <a href="/login.html"><span class="icon_profile"></span></a>
                     </div>
                 </div>
@@ -83,7 +86,7 @@
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Home</a>
                         <a href="/anime">Anime</a>
-                        <span>Fate Stay Night: Unlimited Blade</span>
+                        <span><?php echo str_replace('%20', ' ', $params[2]); ?></span>
                     </div>
                 </div>
             </div>
@@ -292,14 +295,7 @@
           <!-- Footer Section End -->
 
           <!-- Search model Begin -->
-          <div class="search-model">
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <div class="search-close-switch"><i class="icon_close"></i></div>
-                <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here.....">
-                </form>
-            </div>
-        </div>
+          <?php include(__dir__.'/search/search_html.php'); ?>
         <!-- Search model end -->
 
         <!-- Js Plugins -->
