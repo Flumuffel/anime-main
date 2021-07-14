@@ -129,6 +129,9 @@ var querys = {
                 native
                 userPreferred
             }
+            trailer {
+                id
+            }
             description
             genres
             averageScore
@@ -438,9 +441,17 @@ function animeDetails(query, id) {
                 var watches = 0
                 anime.stats.statusDistribution.every(stat => {
                     watches += stat.amount
-                    console.log(watches)
                     return true
                 })
+
+                // Trailer
+                console.log(anime.trailer != null)
+                if(anime.trailer != null) {
+                    $('#trailerStream')[0].setAttribute("src", "https://www.youtube.com/embed/"+anime.trailer.id)
+                } else {
+                    $('#trailerBtn')[0].remove();
+                    $('#trailerModal')[0].remove();
+                }
 
                 // Image
                 $('.anime__details__pic')[0].setAttribute('data-setbg', anime.coverImage.extraLarge)
