@@ -493,8 +493,10 @@ function animeDetails(query, id) {
                     // Right
                     var rightOp = [
                         '<span>Rating:</span>' + aRating + " Stars / " + numFormatter(anime.stats.statusDistribution[2].amount),
+                        '<span>Episoden:</span>' + (anime.episodes != null ? anime.episodes : "?"),
                         '<span>Duration:</span>' + anime.duration + " min/ep",
-                        '<span>Views:</span>' + numFormatter(watches)
+                        '<span>Views:</span>' + numFormatter(watches),
+                        (anime.nextAiringEpisode.episode != null ? '<span>Next Ep:</span> '+ anime.nextAiringEpisode.episode : '')
                     ]
 
                     var right = $('.anime__details__widget > .row > .right > ul > li')

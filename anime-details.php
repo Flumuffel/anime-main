@@ -131,8 +131,10 @@
                                     <div class="col-lg-6 col-md-6 right">
                                         <ul>
                                             <li><span>Rating:</span> 7.31 / 1,515</li>
+                                            <li><span>Episoden:</span> 12</li>
                                             <li><span>Duration:</span> 24 min/ep</li>
                                             <li><span>Views:</span> 131,541</li>
+                                            <li></li>
                                         </ul>
                                     </div>
                                 </div>
