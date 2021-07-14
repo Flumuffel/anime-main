@@ -26,6 +26,10 @@
 </head>
 
 <body>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/anilist-querys.js"></script>
+    <script src="/js/anilist.js"></script>
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -75,6 +79,41 @@
     </header>
     <!-- Header End -->
 
+    <!-- Notification Section Begin -->
+
+    <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 0; left: 0; min-height: 200px; z-index: 999999">
+        <!-- Position it -->
+        <div style="position: absolute; top: 80px; left: 15px; width: 340px">
+      
+          <!-- Then put toasts within -->
+          <?php
+          if (!isset($_GET['noEpFound'])) {
+            goto EpFound;
+          }
+          ?>
+          <div class="toast" style="background: rgba(255,255,255,.1); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
+              <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
+              <small class="text-muted" style="color: white !important"><strong>Fehler</strong></small>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="toast-body">
+              Die Episode <strong><?php echo $_GET['noEpFound'] ?></strong> gibt es nicht! <br>
+            </div>
+          </div>
+
+          <?php EpFound: ?>
+
+        </div>
+      </div>
+
+    <!-- Notification End -->
+
+    <!-- ID: HIDDEN -->
+    <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
+
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
@@ -94,15 +133,14 @@
     <!-- Breadcrumb End -->
 
     <!-- Anime Section Begin -->
-    <section class="anime-details spad">
+    <section class="anime-details spad set-query" data-setquery="showEpisode">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="anime__video__player">
-                        <video id="player" playsinline controls data-poster="./videos/anime-watch.jpg">
-                            <source src="videos/1.mp4" type="video/mp4" />
+                        <video id="player" playsinline controls data-poster="https://img1.ak.crunchyroll.com/i/spire4-tmb/5d9f42e91df529bee28acde26121cd111428121589_full.jpg" controls>
+                            <source src="//streamtape.com/get_video?id=xoYZXJy7WYIkbew&expires=1626358816&ip=DxEsEHOnDS9X&token=rsOktAGUdEoz&stream=1" scrlang="de" type="video/mp4" />
                             <!-- Captions are optional -->
-                            <track kind="captions" label="English captions" src="#" srclang="en" default />
                         </video>
                     </div>
                     <div class="anime__details__episodes">
@@ -128,6 +166,11 @@
                         <a href="#">Ep 17</a>
                         <a href="#">Ep 18</a>
                         <a href="#">Ep 19</a>
+                        <a href="#">Ep 20</a>
+                        <a href="#">Ep 21</a>
+                        <a href="#">Ep 22</a>
+                        <a href="#">Ep 23</a>
+                        <a href="#">Ep 24</a>
                     </div>
                 </div>
             </div>
@@ -254,7 +297,6 @@
     <!-- Search model end -->
 
     <!-- Js Plugins -->
-    <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/player.js"></script>
     <script src="/js/jquery.nice-select.min.js"></script>

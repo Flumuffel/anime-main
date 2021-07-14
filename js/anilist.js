@@ -25,6 +25,10 @@ function numFormatter(num) {
     }
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 'use strict';
 
 (function ($) {
@@ -45,6 +49,12 @@ function numFormatter(num) {
             'recent':{
                 'input': $('.recent__product > .row')[1], 
                 'query': querys['recent']
+            },
+            'showDetails':{
+                'query': querys['showDetails']
+            },
+            'showEpisode': {
+                'query': querys['showEpisode']
             }
         }
         
@@ -53,13 +63,24 @@ function numFormatter(num) {
             var option = options[setquery];
 
             if(option == undefined || option == null) return
-
+            
+            console.log(setquery)
             console.log("Trigger setup for '"+setquery+"'")
 
-            if(setquery != "hero") {
-                showAnime(option.query, option.input, 8)
-            } else {
-                showHero(option.query, option.input, 4)
+            switch(setquery){
+                case 'popular':
+                case 'recent':
+                    showAnime(option.query, option.input, 8);
+                break;
+                case 'hero':
+                    showHero(option.query, option.input, 4)
+                break;
+                case 'showDetails':
+                    animeDetails(option.query, $('#anilistId')[0].value)
+                break;
+                case 'showEpisode':
+                    showEpisode(option.query, $('#anilistId')[0].value)
+                break;
             }
 
         });

@@ -29,6 +29,10 @@
 </head>
 
 <body>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/anilist-querys.js"></script>
+    <script src="/js/anilist.js"></script>
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -78,6 +82,9 @@
     </header>
     <!-- Header End -->
 
+    <!-- ID: HIDDEN -->
+    <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
+
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
@@ -95,13 +102,13 @@
     <!-- Breadcrumb End -->
 
     <!-- Anime Section Begin -->
-    <section class="anime-details spad">
+    <section class="anime-details spad set-query" data-setquery="showDetails">
         <div class="container">
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="/img/anime/details-pic.jpg">
-                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                        <div class="anime__details__pic set-bg" data-setbg="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx15583-rTuRqDFTM1UZ.png">
+                            <div class="comment"> TV</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
                         </div>
                     </div>
@@ -127,7 +134,7 @@
                             legendary hero from the Waste War - the fabled Ace!</p>
                             <div class="anime__details__widget">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6 left">
                                         <ul>
                                             <li><span>Type:</span> TV Series</li>
                                             <li><span>Studios:</span> Lerche</li>
@@ -136,12 +143,10 @@
                                             <li><span>Genre:</span> Action, Adventure, Fantasy, Magic</li>
                                         </ul>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6 right">
                                         <ul>
-                                            <li><span>Scores:</span> 7.31 / 1,515</li>
-                                            <li><span>Rating:</span> 8.5 / 161 times</li>
+                                            <li><span>Rating:</span> 7.31 / 1,515</li>
                                             <li><span>Duration:</span> 24 min/ep</li>
-                                            <li><span>Quality:</span> HD</li>
                                             <li><span>Views:</span> 131,541</li>
                                         </ul>
                                     </div>
@@ -156,8 +161,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-8 col-md-8">
+                <div class="row" style="display: none;">
+                    <div class="col-lg-8 col-md-8" style="opacity: 0;">
                         <div class="anime__details__review">
                             <div class="section-title">
                                 <h5>Reviews</h5>
@@ -299,7 +304,6 @@
         <!-- Search model end -->
 
         <!-- Js Plugins -->
-        <script src="/js/jquery-3.3.1.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/player.js"></script>
         <script src="/js/jquery.nice-select.min.js"></script>
