@@ -1,8 +1,9 @@
 on: push
 name: 🚀 Deploy website on push
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  web-deploy-dev:
+    name: 🎉 Deploy to Dev
+    if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
@@ -14,5 +15,5 @@ jobs:
         server: 	web.geative.de
         username: flumuffel_ftp1
         password: ${{ secrets.password }}
-        server-dir: /flummy/anime-main/
+        server-dir: /flummy/anime-main-dev/
           
