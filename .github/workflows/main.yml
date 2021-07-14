@@ -14,5 +14,5 @@ jobs:
         server: 	web.geative.de
         username: flumuffel_ftp1
         password: ${{ secrets.password }}
-        server-dir: /flummy/test/${GITHUB_REF##*/}/
+        server-dir: /flummy/test/${{ GITHUB_REF }}/
           
