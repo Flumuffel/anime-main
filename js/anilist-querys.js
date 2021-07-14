@@ -526,7 +526,7 @@ function showEpisode(query, id) {
         json.Page.media.every(anime => {
             console.log(anime)
             console.log("CHECK EPISODE: "+ parseInt($('.breadcrumb__links > span')[0].innerHTML))
-            if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] == undefined) {
+            if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1] == undefined) {
                 if(document.referrer != "") {
                     window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
                 } else {
