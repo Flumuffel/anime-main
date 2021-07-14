@@ -1,5 +1,9 @@
 <?php
     include(__dir__.'/search/search_code.php');
+
+    if ($params[2] == null) {
+        header('Location: /home');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -8,7 +12,7 @@
 
     <?php include("inc/meta.php"); ?>
 
-    <title>Anime | Template</title>
+    <title>Anime</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
