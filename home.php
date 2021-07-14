@@ -49,6 +49,19 @@
         <div style="position: absolute; top: 80px; left: 15px; width: 340px">
       
           <!-- Then put toasts within -->
+          <div class="toast" style="background: rgb(210 215 14 / 21%); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
+              <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
+              <small class="text-muted" style="color: white !important"><strong>Achtung!</strong></small>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="toast-body">
+              <strong>Das ist die Dev umgebung!</strong>
+            </div>
+          </div>
+
           <div class="toast" style="background: rgba(255,255,255,.1); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
             <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
               <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
