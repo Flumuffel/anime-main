@@ -14,5 +14,5 @@ jobs:
         server: 	web.geative.de
         username: flumuffel_ftp1
         password: ${{ secrets.password }}
-        server-dir: /flummy/anime-main/
+        server-dir: /flummy/anime-main-dev/
           
