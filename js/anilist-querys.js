@@ -287,10 +287,18 @@ function showAnime(query, choose, show) {
                             format.innerHTML = " " + anime.format
                             pic.appendChild(format)
 
+                            // Watches
+                            var watches = 0
+                            anime.stats.statusDistribution.every(stat => {
+                                watches += stat.amount
+                                console.log(watches)
+                                return true
+                            })
+
                             // Views
                             let views = document.createElement('div')
                             views.className = "view"
-                            views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(anime.stats.statusDistribution[2].amount) + '</div>'
+                            views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(watches) + '</div>'
                             pic.appendChild(views)
 
                         // Meta
