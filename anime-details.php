@@ -1,5 +1,9 @@
 <?php
     include(__dir__.'/search/search_code.php');
+
+    if ($params[2] == null) {
+        header('Location: /home');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -8,7 +12,7 @@
 
     <?php include("inc/meta.php"); ?>
 
-    <title>Anime | Template</title>
+    <title>Anime</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -53,13 +57,34 @@
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Home</a>
                         <a href="/anime">Anime</a>
-                        <span><?php echo str_replace('+', ' ', $params[2]); ?></span>
+                        <span><?php echo $params[2] ?></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Breadcrumb End -->
+
+    <!-- Trailer Start -->
+    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background: #0b0c2a">
+                <div class="modal-header" style="border-bottom: 0;">
+                    <h5 class="modal-title" style="color: white; font-weight: 800; font-size: 25px">Trailer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                    </div>
+                    <div class="modal-footer" style="border-top: 0;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Trailer End-->
 
     <!-- Anime Section Begin -->
     <section class="anime-details spad set-query" data-setquery="showDetails">
@@ -106,14 +131,17 @@
                                     <div class="col-lg-6 col-md-6 right">
                                         <ul>
                                             <li><span>Rating:</span> 7.31 / 1,515</li>
+                                            <li><span>Episoden:</span> 12</li>
                                             <li><span>Duration:</span> 24 min/ep</li>
                                             <li><span>Views:</span> 131,541</li>
+                                            <li></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="anime__details__btn">
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
+                                <a id="trailerBtn" href="" class="follow-btn" data-toggle="modal" data-target=".bd-trailer-lg">Trailer</a>
                                 <a href="/anime/<?php echo str_replace('+', ' ', $params[2]); ?>/episode/1" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>

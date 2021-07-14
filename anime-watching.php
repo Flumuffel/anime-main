@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8" style="display: none;">
                     <div class="anime__details__review">
                         <div class="section-title">
                             <h5>Reviews</h5>

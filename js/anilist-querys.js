@@ -129,6 +129,9 @@ var querys = {
                 native
                 userPreferred
             }
+            trailer {
+                id
+            }
             description
             genres
             averageScore
@@ -438,9 +441,17 @@ function animeDetails(query, id) {
                 var watches = 0
                 anime.stats.statusDistribution.every(stat => {
                     watches += stat.amount
-                    console.log(watches)
                     return true
                 })
+
+                // Trailer
+                console.log(anime.trailer != null)
+                if(anime.trailer != null) {
+                    $('#trailerStream')[0].setAttribute("src", "https://www.youtube.com/embed/"+anime.trailer.id)
+                } else {
+                    $('#trailerBtn')[0].remove();
+                    $('#trailerModal')[0].remove();
+                }
 
                 // Image
                 $('.anime__details__pic')[0].setAttribute('data-setbg', anime.coverImage.extraLarge)
@@ -480,16 +491,25 @@ function animeDetails(query, id) {
                     })
                     
                     // Right
+                    console.log(anime)
                     var rightOp = [
-                        '<span>Rating:</span>' + aRating + " / " + numFormatter(anime.stats.statusDistribution[2].amount),
+                        '<span>Rating:</span>' + aRating + " Stars / " + numFormatter(anime.stats.statusDistribution[2].amount),
+                        '<span>Episoden:</span>' + (anime.episodes != null ? anime.episodes : "?"),
                         '<span>Duration:</span>' + anime.duration + " min/ep",
-                        '<span>Views:</span>' + numFormatter(watches)
+                        '<span>Views:</span>' + numFormatter(watches),
+                        (anime.nextAiringEpisode != null ? '<span>Next Ep:</span> '+ anime.nextAiringEpisode.episode : 'DELETE')
                     ]
 
                     var right = $('.anime__details__widget > .row > .right > ul > li')
                     right.each(i => {
                         if(rightOp[i] != undefined) {
                             right[i].innerHTML = rightOp[i]
+                            console.log(right[i])
+                            console.log(rightOp[i])
+                            if(rightOp[i] == "DELETE") {
+                                console.log("REMOVE")
+                                right[i].remove();
+                            }
                         }
                     })
 
@@ -515,7 +535,7 @@ function showEpisode(query, id) {
         json.Page.media.every(anime => {
             console.log(anime)
             console.log("CHECK EPISODE: "+ parseInt($('.breadcrumb__links > span')[0].innerHTML))
-            if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] == undefined) {
+            if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1] == undefined) {
                 if(document.referrer != "") {
                     window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
                 } else {
