@@ -72,7 +72,7 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                        <iframe id="trailerStream" href="" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
                     <div class="modal-footer" style="border-top: 0;">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="anime__details__btn">
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a id="trailerBtn" class="follow-btn" data-toggle="modal" data-target=".bd-trailer-lg">Trailer</a>
+                                <a id="trailerBtn" href="" class="follow-btn" data-toggle="modal" data-target=".bd-trailer-lg">Trailer</a>
                                 <a href="/anime/<?php echo str_replace('+', ' ', $params[2]); ?>/episode/1" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
