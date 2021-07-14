@@ -66,13 +66,13 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background: #0b0c2a">
                 <div class="modal-header" style="border-bottom: 0;">
-                    <h5 class="modal-title" style="color: white; ONT-WEIGHT: 800; font-size: 25px">Trailer</h5>
+                    <h5 class="modal-title" style="color: white; font-weight: 800; font-size: 25px">Trailer</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
                     <div class="modal-body">
-                        <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        <iframe id="trailerStream" href="" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
                     <div class="modal-footer" style="border-top: 0;">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
