@@ -50,7 +50,6 @@
       
           <!-- Then put toasts within -->
           <?php 
-          print_r(explode(".", $_SERVER['HTTP_HOST']));
           if (explode(".", $_SERVER['HTTP_HOST'])[0] == "anime") {
               goto noDev;
           }
