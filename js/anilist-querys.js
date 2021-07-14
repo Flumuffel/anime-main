@@ -508,7 +508,11 @@ function showEpisode(query, id) {
             console.log(anime)
             console.log("CHECK EPISODE: "+ parseInt($('.breadcrumb__links > span')[0].innerHTML))
             if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] == undefined) {
-                window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
+                if(document.referrer != "") {
+                    window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
+                } else {
+                    window.location.href="/anime/"+id+"/episode/1?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
+                }
             }
 
             // Episode
@@ -519,7 +523,6 @@ function showEpisode(query, id) {
                 // Set Ep Links
                 Episodes.each(i => {
                     Episodes[i].setAttribute('href','/anime/'+id+"/episode/"+(i+1))
-                    console.log(Episodes[i])
                 })
             
             // Title
