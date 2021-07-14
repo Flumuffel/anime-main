@@ -491,18 +491,25 @@ function animeDetails(query, id) {
                     })
                     
                     // Right
+                    console.log(anime)
                     var rightOp = [
                         '<span>Rating:</span>' + aRating + " Stars / " + numFormatter(anime.stats.statusDistribution[2].amount),
                         '<span>Episoden:</span>' + (anime.episodes != null ? anime.episodes : "?"),
                         '<span>Duration:</span>' + anime.duration + " min/ep",
                         '<span>Views:</span>' + numFormatter(watches),
-                        (anime.nextAiringEpisode.episode != null ? '<span>Next Ep:</span> '+ anime.nextAiringEpisode.episode : '')
+                        (anime.nextAiringEpisode != null ? '<span>Next Ep:</span> '+ anime.nextAiringEpisode.episode : 'DELETE')
                     ]
 
                     var right = $('.anime__details__widget > .row > .right > ul > li')
                     right.each(i => {
                         if(rightOp[i] != undefined) {
                             right[i].innerHTML = rightOp[i]
+                            console.log(right[i])
+                            console.log(rightOp[i])
+                            if(rightOp[i] == "DELETE") {
+                                console.log("REMOVE")
+                                right[i].remove();
+                            }
                         }
                     })
 
