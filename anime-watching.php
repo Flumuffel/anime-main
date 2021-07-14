@@ -88,10 +88,11 @@
           <!-- Then put toasts within -->
           <?php
           if (!isset($_GET['noEpFound'])) {
+            $_GET['noEpFound'] = "";
             goto EpFound;
           }
           ?>
-          <div class="toast" style="background: rgba(255,255,255,.1); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+          <div class="toast" style="background: rgb(210 215 14 / 21%); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
             <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
               <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
               <small class="text-muted" style="color: white !important"><strong>Fehler</strong></small>
@@ -103,6 +104,9 @@
               Die Episode <strong><?php echo $_GET['noEpFound'] ?></strong> gibt es  <span style="color: gray;">(noch)</span>  nicht! <br>
             </div>
           </div>
+          <script>
+              window.history.pushState({}, document.title, "/anime/<?php echo $params[2]; ?>/episode/<?php echo explode("?", $params[4])[0]; ?>");
+          </script>
 
           <?php EpFound: ?>
 
