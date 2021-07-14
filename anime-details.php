@@ -64,9 +64,9 @@
     <!-- Trailer Start -->
     <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Trailer</h5>
+            <div class="modal-content" style="background: #0b0c2a">
+                <div class="modal-header" style="border-bottom: 0;">
+                    <h5 class="modal-title" style="color: white;">Trailer</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -74,7 +74,7 @@
                     <div class="modal-body">
                         <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" style="border-top: 0;">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
