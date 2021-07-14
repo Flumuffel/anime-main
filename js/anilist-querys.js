@@ -492,7 +492,7 @@ function animeDetails(query, id) {
                     
                     // Right
                     var rightOp = [
-                        '<span>Rating:</span>' + aRating + " / " + numFormatter(anime.stats.statusDistribution[2].amount),
+                        '<span>Rating:</span>' + aRating + " Stars / " + numFormatter(anime.stats.statusDistribution[2].amount),
                         '<span>Duration:</span>' + anime.duration + " min/ep",
                         '<span>Views:</span>' + numFormatter(watches)
                     ]
