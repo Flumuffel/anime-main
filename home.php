@@ -49,6 +49,14 @@
         <div style="position: absolute; top: 80px; left: 15px; width: 340px">
       
           <!-- Then put toasts within -->
+          <?php 
+          print_r(explode(".", $_SERVER['HTTP_HOST']));
+          if (explode(".", $_SERVER['HTTP_HOST'])[0] == "anime") {
+              goto noDev;
+          }
+          
+          ?>
+
           <div class="toast" style="background: rgb(210 215 14 / 21%); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
             <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
               <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
@@ -61,6 +69,8 @@
               <strong>Das ist die Dev umgebung!</strong>
             </div>
           </div>
+
+          <?php noDev: ?>
 
           <div class="toast" style="background: rgba(255,255,255,.1); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
             <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
