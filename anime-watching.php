@@ -100,7 +100,7 @@
               </button>
             </div>
             <div class="toast-body">
-              Die Episode <strong><?php echo $_GET['noEpFound'] ?></strong> gibt es <span style="color: gray;">(noch)</span> nicht! <br>
+              Die Episode <strong><?php echo $_GET['noEpFound'] ?></strong> gibt es nicht! <br>
             </div>
           </div>
 
@@ -124,7 +124,7 @@
                         <a href="/anime">Anime</a>
                         <a href="/anime/<?php echo $params[2]; ?>"><?php echo $params[2]; ?></a>
                         <a href="">Episode</a>
-                        <span><?php echo explode("?", $params[4])[0]; ?></span>
+                        <span><?php echo $params[4]; ?></span>
                     </div>
                 </div>
             </div>

@@ -507,14 +507,8 @@ function showEpisode(query, id) {
         json.Page.media.every(anime => {
             console.log(anime)
             console.log("CHECK EPISODE: "+ parseInt($('.breadcrumb__links > span')[0].innerHTML))
-            console.log(document.referrer)
-            console.log(document.referrer != "")
             if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] == undefined) {
-                if(document.referrer != "") {
-                    window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
-                } else {
-                    window.location.href="/anime/"+id+"/episode/1?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
-                }
+                window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
             }
 
             // Episode
@@ -525,6 +519,7 @@ function showEpisode(query, id) {
                 // Set Ep Links
                 Episodes.each(i => {
                     Episodes[i].setAttribute('href','/anime/'+id+"/episode/"+(i+1))
+                    console.log(Episodes[i])
                 })
             
             // Title
