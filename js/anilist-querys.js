@@ -308,7 +308,7 @@ function showAnime(query, choose, show) {
 
                             // Title
                             let title = document.createElement('h5')
-                            title.innerHTML = '<a href="'+anime.siteUrl+'">'+anime.title.userPreferred+'</a>'
+                            title.innerHTML = '<a href="/anime/'+anime.id+'">'+anime.title.userPreferred+'</a>'
                             meta.appendChild(title)
 
                 choose.appendChild(newPopular)
@@ -374,7 +374,7 @@ function showHero(query, slider, show) {
                 heroText.appendChild(description)
                 
                 //Watch now
-                heroText.innerHTML += '<a href="'+anime.siteUrl+'"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>'
+                heroText.innerHTML += '<a href="/anime/'+anime.id+'"><span>Mehr Info</span> <i class="fa fa-angle-right"></i></a>'
 
                 slider.appendChild(newHero)
 
