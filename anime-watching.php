@@ -1,6 +1,15 @@
 <?php
     include(__dir__.'/inc/search/search_code.php');
 
+    require 'config.php';
+
+    $stmt = $conn->prepare("SELECT * FROM Episoden WHERE AnilistId = :aid AND Episode = :ep ORDER BY Episode ASC, Lang ASC");
+    $stmt->bindParam(':aid', $params[2]);
+    $stmt->bindParam(':ep', $params[4]);
+    $stmt->execute();
+
+    $episode = $stmt->fetchAll();
+    print_r($episode);
 ?>
 
 <!DOCTYPE html>
