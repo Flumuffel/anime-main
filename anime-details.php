@@ -1,5 +1,5 @@
 <?php
-    include(__dir__.'/search/search_code.php');
+    include(__dir__.'/inc/search/search_code.php');
 
     if ($params[2] == null) {
         header('Location: /home');
@@ -261,7 +261,7 @@
         <!-- Footer Section End -->
 
         <!-- Search model Begin -->
-          <?php include(__dir__.'/search/search_html.php'); ?>
+          <?php include(__dir__.'/inc/search/search_html.php'); ?>
         <!-- Search model end -->
 
         <!-- Js Plugins -->

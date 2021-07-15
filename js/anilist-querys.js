@@ -242,8 +242,8 @@ var querys = {
     }}`
 }
 
-function showAnime(query, choose, show) {
-    queryFetch(query, { }).then(data => {
+function showAnime(query, choose, show, search) {
+    queryFetch(query, { "anime": search }).then(data => {
         var json = JSON.parse(JSON.stringify(data.data, null, 4));
         var count = 0;
         var max = show

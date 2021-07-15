@@ -55,6 +55,10 @@ function capitalizeFirstLetter(string) {
             },
             'showEpisode': {
                 'query': querys['showEpisode']
+            },
+            'showSearch': {
+                'input': $('.show__search > .row')[1], 
+                'query': querys['showEpisode']
             }
         }
         
@@ -77,6 +81,9 @@ function capitalizeFirstLetter(string) {
                 break;
                 case 'showDetails':
                     animeDetails(option.query, $('#anilistId')[0].value)
+                break;
+                case 'showSearch':
+                    showAnime(option.query, option.input, 16, $('#search')[0].value)
                 break;
                 case 'showEpisode':
                     showEpisode(option.query, $('#anilistId')[0].value)

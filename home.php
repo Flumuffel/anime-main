@@ -1,5 +1,5 @@
 <?php
-    include('search/search_code.php');
+    include('inc/search/search_code.php');
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -415,7 +415,7 @@
     <!-- Footer Section End -->
 
     <!-- Search model Begin -->
-    <?php include('search/search_html.php'); ?>
+    <?php include('inc/search/search_html.php'); ?>
     <!-- Search model end -->
 
     <!-- Js Plugins -->
