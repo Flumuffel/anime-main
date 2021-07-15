@@ -89,7 +89,7 @@ function capitalizeFirstLetter(string) {
                     showAnime(option.query, option.input, 8);
                 break;
                 case 'hero':
-                    showHero(option.query, option.input, 4)
+                    showHero(option.query, option.input, 5)
                 break;
                 case 'showDetails':
                     animeDetails(option.query, $('#anilistId')[0].value)
