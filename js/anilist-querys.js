@@ -319,7 +319,7 @@ function showAnime(query, choose, show, search) {
 
                             // Title
                             let title = document.createElement('h5')
-                            title.innerHTML = '<a href="/anime/'+anime.id+'">'+anime.title.userPreferred+'</a>'
+                            title.innerHTML = '<a href="/anime/'+anime.id+'">'+anime.title.english+'</a>'
                             meta.appendChild(title)
 
                 choose.appendChild(newPopular)
