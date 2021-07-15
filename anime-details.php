@@ -57,9 +57,13 @@
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Home</a>
                         <?php 
-                            $url = explode("/", $_SERVER['HTTP_REFERER']);
-                            if($url[3] == "search") {
-                                echo '<a href="/search/'.$url[4].'">Search</a>';
+                            if(isset($_SERVER['HTTP_REFERER'])){
+                                $url = explode("/", $_SERVER['HTTP_REFERER']);
+                                if($url[3] == "search") {
+                                    echo '<a href="/search/'.$url[4].'">Search</a>';
+                                }
+                            } else {
+                                echo '<a>Anime</a>';
                             }
                         ?>
                         <span><?php echo $params[2] ?></span>
