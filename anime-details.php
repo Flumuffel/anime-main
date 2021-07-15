@@ -56,7 +56,12 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Home</a>
-                        <a href="/anime">Anime</a>
+                        <?php 
+                            $url = explode("/", $_SERVER['HTTP_REFERER']);
+                            if($url[3] == "search") {
+                                echo '<a href="/search/'.$url[4].'">Search</a>';
+                            }
+                        ?>
                         <span><?php echo $params[2] ?></span>
                     </div>
                 </div>
