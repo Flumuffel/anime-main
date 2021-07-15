@@ -71,12 +71,12 @@
     <!-- Breadcrumb End -->
 
     <!-- Trailer Start -->
-    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background: #0b0c2a">
                 <div class="modal-header" style="border-bottom: 0;">
                     <h5 class="modal-title" style="color: white; font-weight: 800; font-size: 25px">Trailer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
@@ -84,7 +84,7 @@
                         <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
                     <div class="modal-footer" style="border-top: 0;">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">Close</button>
                 </div>
             </div>
         </div>

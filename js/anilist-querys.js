@@ -167,6 +167,14 @@ var querys = {
             nextAiringEpisode{
                 episode
             }
+            airingSchedule {
+                edges {
+                    node{
+                    timeUntilAiring
+                    episode
+                    }
+                }
+            }
             streamingEpisodes {
                 title
                 thumbnail
@@ -249,7 +257,7 @@ function showAnime(query, choose, show, search) {
         var max = show
         json.Page.media.every(anime => {
             if (anime.bannerImage != null) {
-                if(count >= max) {
+                if (count >= max) {
                     return false
                 }
 
@@ -262,65 +270,65 @@ function showAnime(query, choose, show, search) {
                 let newPopular = document.createElement('div')
                 newPopular.className = "col-lg-3 col-md-6 col-sm-6"
 
-                    // Item
-                    let item = document.createElement('div')
-                    item.className = "product__item"
-                    newPopular.appendChild(item)
+                // Item
+                let item = document.createElement('div')
+                item.className = "product__item"
+                newPopular.appendChild(item)
 
-                        // Picture
-                        let pic = document.createElement('div')
-                        pic.className = "product__item__pic set-bg"
-                        pic.setAttribute('data-setbg', anime.coverImage.large)
-                        item.appendChild(pic)
+                // Picture
+                let pic = document.createElement('div')
+                pic.className = "product__item__pic set-bg"
+                pic.setAttribute('data-setbg', anime.coverImage.large)
+                item.appendChild(pic)
 
-                            // Episode
-                            let ep = document.createElement('div')
-                            ep.className = "ep"
-                            let eps = anime.episodes || '?'
-                            if(anime.nextAiringEpisode != null){
-                                ep.innerHTML = (anime.nextAiringEpisode.episode-1) + " / " + eps
-                            } else {
-                                ep.innerHTML = anime.episodes + " / " + eps
-                            }
-                            pic.appendChild(ep)
+                // Episode
+                let ep = document.createElement('div')
+                ep.className = "ep"
+                let eps = anime.episodes || '?'
+                if (anime.nextAiringEpisode != null) {
+                    ep.innerHTML = (anime.nextAiringEpisode.episode - 1) + " / " + eps
+                } else {
+                    ep.innerHTML = anime.episodes + " / " + eps
+                }
+                pic.appendChild(ep)
 
-                            // Comment
-                            let format = document.createElement('div')
-                            format.className = "comment"
-                            format.innerHTML = " " + anime.format
-                            pic.appendChild(format)
+                // Comment
+                let format = document.createElement('div')
+                format.className = "comment"
+                format.innerHTML = " " + anime.format
+                pic.appendChild(format)
 
-                            // Watches
-                            var watches = 0
-                            anime.stats.statusDistribution.every(stat => {
-                                watches += stat.amount
-                                console.log(watches)
-                                return true
-                            })
+                // Watches
+                var watches = 0
+                anime.stats.statusDistribution.every(stat => {
+                    watches += stat.amount
+                    console.log(watches)
+                    return true
+                })
 
-                            // Views
-                            let views = document.createElement('div')
-                            views.className = "view"
-                            views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(watches) + '</div>'
-                            pic.appendChild(views)
+                // Views
+                let views = document.createElement('div')
+                views.className = "view"
+                views.innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(watches) + '</div>'
+                pic.appendChild(views)
 
-                        // Meta
-                        let meta = document.createElement('div')
-                        meta.className = "product__item__text"
-                        item.appendChild(meta)
+                // Meta
+                let meta = document.createElement('div')
+                meta.className = "product__item__text"
+                item.appendChild(meta)
 
-                            // Meta Tags
-                            let mtags = document.createElement('ul')
-                            anime.genres.every(genre => {
-                                mtags.innerHTML += "<li>"+genre+"</li>"
-                                return true
-                            })
-                            meta.appendChild(mtags)
+                // Meta Tags
+                let mtags = document.createElement('ul')
+                anime.genres.every(genre => {
+                    mtags.innerHTML += "<li>" + genre + "</li>"
+                    return true
+                })
+                meta.appendChild(mtags)
 
-                            // Title
-                            let title = document.createElement('h5')
-                            title.innerHTML = '<a href="/anime/'+anime.id+'">'+anime.title.english+'</a>'
-                            meta.appendChild(title)
+                // Title
+                let title = document.createElement('h5')
+                title.innerHTML = '<a href="/anime/' + anime.id + '">' + anime.title.english + '</a>'
+                meta.appendChild(title)
 
                 choose.appendChild(newPopular)
 
@@ -333,12 +341,12 @@ function showAnime(query, choose, show, search) {
 }
 
 function showHero(query, slider, show) {
-    queryFetch(query, { }).then(data => {
+    queryFetch(query, {}).then(data => {
         var json = JSON.parse(JSON.stringify(data.data, null, 4));
         var count = 0;
         json.Page.media.every(anime => {
             if (anime.bannerImage != null) {
-                if(count >= show) {
+                if (count >= show) {
                     return false
                 }
 
@@ -373,7 +381,7 @@ function showHero(query, slider, show) {
                 label.className = "label"
                 label.innerHTML = anime.genres[Math.floor(Math.random() * anime.genres.length)]
                 heroText.appendChild(label)
-                
+
                 // Title
                 let title = document.createElement('h2')
                 title.innerHTML = anime.title.userPreferred
@@ -383,9 +391,9 @@ function showHero(query, slider, show) {
                 let description = document.createElement('p')
                 description.innerHTML = desc
                 heroText.appendChild(description)
-                
+
                 //Watch now
-                heroText.innerHTML += '<a href="/anime/'+anime.id+'"><span>Mehr Info</span> <i class="fa fa-angle-right"></i></a>'
+                heroText.innerHTML += '<a href="/anime/' + anime.id + '"><span>Mehr Info</span> <i class="fa fa-angle-right"></i></a>'
 
                 slider.appendChild(newHero)
 
@@ -404,121 +412,133 @@ function animeDetails(query, id) {
         json.Page.media.every(anime => {
             console.log(anime)
 
-                // Title
-                $('.anime__details__title h3')[0].innerHTML = anime.title.english     // Change Title
-                $('.breadcrumb__links > span')[0].innerHTML = anime.title.english
-                $('.anime__details__title span')[0].innerHTML = anime.title.native          // Japan Title
+            // Title
+            $('.anime__details__title h3')[0].innerHTML = anime.title.english     // Change Title
+            $('.breadcrumb__links > span')[0].innerHTML = anime.title.english
+            $('.anime__details__title span')[0].innerHTML = anime.title.native          // Japan Title
 
-                // Desc
-                var desc = anime.description
-                var char = 300
-                desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
-                $('.anime__details__text > p')[0].innerHTML = desc
+            // Desc
+            var desc = anime.description
+            var char = 300
+            desc = desc.slice(0, char) + (desc.length > char ? "..." : "");
+            $('.anime__details__text > p')[0].innerHTML = desc
 
-                // Ratings
-                var aRating = Math.round((anime.averageScore / 100 * 5)*2)/2
-                var ratings = $('.anime__details__rating > .rating a > i')
-                var halfe = false
+            // Ratings
+            var aRating = Math.round((anime.averageScore / 100 * 5) * 2) / 2
+            var ratings = $('.anime__details__rating > .rating a > i')
+            var halfe = false
 
-                ratings.each(rate => {
+            ratings.each(rate => {
 
-                    if (aRating > (rate + 1)){
-                        ratings[rate].className = "fa fa-star"
-                    } else if(aRating == (rate + 1)){
-                        ratings[rate].className = "fa fa-star"
-                        halfe = true
-                    } else if(halfe != true) {
-                        halfe = true
-                        ratings[rate].className = "fa fa-star-half-o"
-                    } else {
-                        ratings[rate].className = "fa fa-star-o"
+                if (aRating > (rate + 1)) {
+                    ratings[rate].className = "fa fa-star"
+                } else if (aRating == (rate + 1)) {
+                    ratings[rate].className = "fa fa-star"
+                    halfe = true
+                } else if (halfe != true) {
+                    halfe = true
+                    ratings[rate].className = "fa fa-star-half-o"
+                } else {
+                    ratings[rate].className = "fa fa-star-o"
+                }
+            })
+
+            $('.anime__details__rating > span')[0].innerHTML = numFormatter(anime.stats.statusDistribution[2].amount) + " Votes"
+
+            // Watches
+            var watches = 0
+            anime.stats.statusDistribution.every(stat => {
+                watches += stat.amount
+                return true
+            })
+
+            // Trailer
+            console.log(anime.trailer != null)
+            if (anime.trailer != null) {
+                $('#trailerStream')[0].setAttribute("src", "https://www.youtube.com/embed/" + anime.trailer.id)
+            } else {
+                $('#trailerBtn')[0].remove();
+                $('#trailerModal')[0].remove();
+            }
+
+            // Image
+            $('.anime__details__pic')[0].setAttribute('data-setbg', anime.coverImage.extraLarge)
+
+            // Type & Views
+            $('.comment')[0].innerHTML = " " + anime.format                             // Type
+            $('.view')[0].innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(watches) + '</div>'
+
+            // Anime Details
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            // Left
+            var aGenre = ""
+            var count = 0
+            anime.genres.every(genre => {
+                if (count >= 3) {
+                    aGenre += genre
+                    return false
+                }
+                aGenre += genre + ", "
+                count++
+                return true
+            })
+
+            var leftOp = [
+                '<span>Type:</span>' + anime.format,
+                '<span>Studios:</span>' + anime.studios.nodes[0].name,
+                '<span>Data aired:</span>' + months[anime.startDate.month] + ", " + anime.startDate.year + " to " + (anime.endDate.year != undefined ? months[anime.endDate.month] + ", " + anime.endDate.year : "?"),
+                '<span>Status:</span>' + capitalizeFirstLetter(anime.status.toLowerCase()),
+                '<span>Genre:</span>' + aGenre
+            ]
+
+            var left = $('.anime__details__widget > .row > .left > ul > li')
+            left.each(i => {
+                if (leftOp[i] != undefined) {
+                    left[i].innerHTML = leftOp[i]
+                }
+            })
+
+            // Right
+                // Get next Ep
+                var nextEp = ""
+                anime.airingSchedule.edges.every(list => {
+                    if (list.node.timeUntilAiring > 0) {
+                        nextEp = secondsToDh(list.node.timeUntilAiring);
+                        return false
                     }
-                })
-
-                $('.anime__details__rating > span')[0].innerHTML = numFormatter(anime.stats.statusDistribution[2].amount) + " Votes"
-
-                // Watches
-                var watches = 0
-                anime.stats.statusDistribution.every(stat => {
-                    watches += stat.amount
                     return true
                 })
 
-                // Trailer
-                console.log(anime.trailer != null)
-                if(anime.trailer != null) {
-                    $('#trailerStream')[0].setAttribute("src", "https://www.youtube.com/embed/"+anime.trailer.id)
-                } else {
-                    $('#trailerBtn')[0].remove();
-                    $('#trailerModal')[0].remove();
+
+            var rightOp = [
+                '<span>Rating:</span>' + aRating + " Stars / " + numFormatter(anime.stats.statusDistribution[2].amount) + ' Votes',
+                '<span>Episoden:</span>' + (anime.episodes != null ? anime.episodes : "?"),
+                '<span>Duration:</span>' + anime.duration + " min/ep",
+                (anime.nextAiringEpisode != null ? '<span>Next Ep:</span> ' + anime.nextAiringEpisode.episode : 'DELETE'),
+                (anime.nextAiringEpisode != null ? '<span>Next release:</span> in <span style="color: orange">'+ nextEp + '</span>' : 'DELETE')
+            ]
+
+            
+
+            var right = $('.anime__details__widget > .row > .right > ul > li')
+            right.each(i => {
+                if (rightOp[i] != undefined) {
+                    right[i].innerHTML = rightOp[i]
+                    console.log(right[i])
+                    console.log(rightOp[i])
+                    if (rightOp[i] == "DELETE") {
+                        console.log("REMOVE")
+                        right[i].remove();
+                    }
                 }
+            })
 
-                // Image
-                $('.anime__details__pic')[0].setAttribute('data-setbg', anime.coverImage.extraLarge)
-                
-                // Type & Views
-                $('.comment')[0].innerHTML = " " + anime.format                             // Type
-                $('.view')[0].innerHTML = '<i class="fa fa-eye"></i> ' + numFormatter(watches) + '</div>'
-
-                // Anime Details
-                    var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-                    // Left
-                    var aGenre = ""
-                    var count = 0
-                    anime.genres.every(genre => {
-                        if(count >= 3) {
-                            aGenre += genre
-                            return false
-                        }
-                        aGenre += genre + ", "
-                        count++
-                        return true
-                    })
-
-                    var leftOp = [
-                        '<span>Type:</span>'+anime.format, 
-                        '<span>Studios:</span>'+anime.studios.nodes[0].name,
-                        '<span>Data aired:</span>'+ months[anime.startDate.month] + ", " + anime.startDate.year + " to " + (anime.endDate.year != undefined ? months[anime.endDate.month] + ", " + anime.endDate.year : "?"),
-                        '<span>Status:</span>'+ capitalizeFirstLetter(anime.status.toLowerCase()),
-                        '<span>Genre:</span>'+ aGenre
-                    ]
-                    
-                    var left = $('.anime__details__widget > .row > .left > ul > li')
-                    left.each(i => {
-                        if(leftOp[i] != undefined) {
-                            left[i].innerHTML = leftOp[i]
-                        }
-                    })
-                    
-                    // Right
-                    console.log(anime)
-                    var rightOp = [
-                        '<span>Rating:</span>' + aRating + " Stars / " + numFormatter(anime.stats.statusDistribution[2].amount),
-                        '<span>Episoden:</span>' + (anime.episodes != null ? anime.episodes : "?"),
-                        '<span>Duration:</span>' + anime.duration + " min/ep",
-                        '<span>Views:</span>' + numFormatter(watches),
-                        (anime.nextAiringEpisode != null ? '<span>Next Ep:</span> '+ anime.nextAiringEpisode.episode : 'DELETE')
-                    ]
-
-                    var right = $('.anime__details__widget > .row > .right > ul > li')
-                    right.each(i => {
-                        if(rightOp[i] != undefined) {
-                            right[i].innerHTML = rightOp[i]
-                            console.log(right[i])
-                            console.log(rightOp[i])
-                            if(rightOp[i] == "DELETE") {
-                                console.log("REMOVE")
-                                right[i].remove();
-                            }
-                        }
-                    })
-
-                // Check Episodes
-                console.log("Anime Episode Streaming: "+anime.streamingEpisodes.length)
-                if(anime.streamingEpisodes.length == 0) {
-                    console.log("DELETE WATCH BUTTON")
-                    $('.watch-btn')[0].remove()
-                }
+            // Check Episodes
+            console.log("Anime Episode Streaming: " + anime.streamingEpisodes.length)
+            if (anime.streamingEpisodes.length == 0) {
+                console.log("DELETE WATCH BUTTON")
+                $('.watch-btn')[0].remove()
+            }
             return true
         })
     })
@@ -534,28 +554,28 @@ function showEpisode(query, id) {
         }
         json.Page.media.every(anime => {
             console.log(anime)
-            console.log("CHECK EPISODE: "+ parseInt($('.breadcrumb__links > span')[0].innerHTML))
-            if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1] == undefined) {
-                if(document.referrer != "") {
-                    window.location.href=document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
+            console.log("CHECK EPISODE: " + parseInt($('.breadcrumb__links > span')[0].innerHTML))
+            if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) - 1] == undefined) {
+                if (document.referrer != "") {
+                    window.location.href = document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
                 } else {
-                    window.location.href="/anime/"+id+"/episode/1?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
+                    window.location.href = "/anime/" + id + "/episode/1?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
                 }
             }
 
             // Episode
-                var Episodes = $('.anime__details__episodes > a')
-                // Set Current Ep
-                Episodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].setAttribute("style", "background: #ffa500ab")
+            var Episodes = $('.anime__details__episodes > a')
+            // Set Current Ep
+            Episodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) - 1].setAttribute("style", "background: #ffa500ab")
 
-                // Set Ep Links
-                Episodes.each(i => {
-                    Episodes[i].setAttribute('href','/anime/'+id+"/episode/"+(i+1))
-                })
-            
+            // Set Ep Links
+            Episodes.each(i => {
+                Episodes[i].setAttribute('href', '/anime/' + id + "/episode/" + (i + 1))
+            })
+
             // Title
             $('.breadcrumb__links > a')[2].innerHTML = anime.title.english
-            
+
             /*
                 // Desc
                 var desc = anime.description
