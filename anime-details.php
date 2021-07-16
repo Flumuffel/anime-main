@@ -4,6 +4,28 @@
     if ($params[2] == null) {
         header('Location: /home');
     }
+
+    require 'config.php';
+
+    $stmt = $conn->prepare("SELECT * FROM Episoden WHERE AnilistId = :aid ORDER BY Episode ASC, Lang ASC");
+    $stmt->bindParam(':aid', $params[2]);
+    $stmt->execute();
+    $episode = $stmt->fetchAll();
+
+    
+
+    $foundEp = false;
+    $EpFirst = false;
+    $NoEpMatch = true;
+    $Ep = [];
+
+    foreach ($episode as $ep) {
+        
+        if(!$EpFirst) {
+            $EpFirst = $ep;
+            $foundEp = true;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -151,9 +173,11 @@
                             <div class="anime__details__btn">
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
                                 <a id="trailerBtn" href="" class="follow-btn" data-toggle="modal" data-target=".bd-trailer-lg">Trailer</a>
+                                <?php if(!$foundEp && $NoEpMatch) { goto noEps; }?>
                                 <a href="/anime/<?php echo str_replace('+', ' ', $params[2]); ?>/episode/1" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
+                                <?php noEps: ?>
                             </div>
                         </div>
                     </div>

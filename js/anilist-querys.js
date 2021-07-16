@@ -534,11 +534,13 @@ function animeDetails(query, id) {
             })
 
             // Check Episodes
+            /*
             console.log("Anime Episode Streaming: " + anime.streamingEpisodes.length)
             if (anime.streamingEpisodes.length == 0) {
                 console.log("DELETE WATCH BUTTON")
                 $('.watch-btn')[0].remove()
             }
+            */
             return true
         })
     })
@@ -555,6 +557,7 @@ function showEpisode(query, id) {
         json.Page.media.every(anime => {
             console.log(anime)
             console.log("CHECK EPISODE: " + parseInt($('.breadcrumb__links > span')[0].innerHTML))
+            /*
             if (anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) - 1] == undefined) {
                 if (document.referrer != "") {
                     window.location.href = document.referrer + "?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
@@ -562,16 +565,21 @@ function showEpisode(query, id) {
                     window.location.href = "/anime/" + id + "/episode/1?noEpFound=" + parseInt($('.breadcrumb__links > span')[0].innerHTML);
                 }
             }
+            */
+
+            // Thumpnail
+            if(anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] != undefined) {
+                $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail + ') no-repeat center; background-size: contain;')
+                $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
+            } else {
+                $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.bannerImage + ') ')
+                $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
+            }
 
             // Episode
-            var Episodes = $('.anime__details__episodes > a')
+            var ep = '#ep'+parseInt($('.breadcrumb__links > span')[0].innerHTML)
             // Set Current Ep
-            Episodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) - 1].setAttribute("style", "background: #ffa500ab")
-
-            // Set Ep Links
-            Episodes.each(i => {
-                Episodes[i].setAttribute('href', '/anime/' + id + "/episode/" + (i + 1))
-            })
+            $(ep)[0].setAttribute("style", "background: #ffa500ab")
 
             // Title
             $('.breadcrumb__links > a')[2].innerHTML = anime.title.english

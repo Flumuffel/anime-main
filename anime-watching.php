@@ -1,6 +1,48 @@
 <?php
     include(__dir__.'/inc/search/search_code.php');
 
+    require 'config.php';
+
+    $KLang;
+    $ILang;
+
+    $lang = $conn->prepare("SELECT * FROM Lang ORDER BY LangId ASC");
+    $lang->execute();
+    $lang = $lang->fetchAll();
+
+    $count = 1;
+    foreach($lang as $ln) {
+        $KLang[$count] = $ln['LangKey'];
+        $count++;
+    }
+    if(isset($params[5])){
+        $ILang = array_search($params[5], $KLang);
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM Episoden WHERE AnilistId = :aid ORDER BY Episode ASC, Lang ASC");
+    $stmt->bindParam(':aid', $params[2]);
+    $stmt->execute();
+    $episode = $stmt->fetchAll();
+
+    
+
+    $foundEp = false;
+    $EpFirst = false;
+    $NoEpMatch = true;
+    $Ep = [];
+
+    foreach ($episode as $ep) {
+        
+        if(!$EpFirst) {
+            $EpFirst = $ep;
+            $foundEp = true;
+        }
+        if($params[4] == $ep['Episode'] && array_search($params[5], $KLang) == $ep['Lang']) {
+            $NoEpMatch = false;
+            $Ep = $ep;
+            break;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -77,11 +119,35 @@
 
         </div>
       </div>
+      <?php    
+
+        if($foundEp && $NoEpMatch) {
+            if(isset($_SERVER['HTTP_REFERER'])) {
+                $url = explode("/", $_SERVER['HTTP_REFERER']);
+                echo '<script type="text/javascript">';
+                echo 'window.location.href = "/anime/'.$url[4].'/episode/'.$EpFirst['Episode'].'/'.$KLang[$EpFirst['Lang']].'"';
+                echo '</script>';
+                //header('Location: /anime/'.$url[4].'/episode/'.$EpFirst['Episode'].'?noEpFound='.$params[4]);
+            } else {
+                echo '<script type="text/javascript">';
+                echo 'window.location.href = "/anime/'.$params[2].'/episode/'.$EpFirst['Episode'].'/'.$KLang[$EpFirst['Lang']].'"';
+                echo '</script>';
+                //header('Location: /anime/'.$params[2].'/episode/'.$EpFirst['Episode'].'?noEpFound='.$params[4]);
+            }
+        } else if(!$foundEp && $NoEpMatch) {
+            
+            echo '<script type="text/javascript">';
+                echo 'window.location.href = "/anime/'.$params[2].'"';
+                echo '</script>';
+        }
+        $episode = $episode[0];
+      ?>
 
     <!-- Notification End -->
 
     <!-- ID: HIDDEN -->
     <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
+
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
@@ -106,12 +172,49 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="anime__video__player">
-                        <video id="player" playsinline controls data-poster="https://img1.ak.crunchyroll.com/i/spire4-tmb/5d9f42e91df529bee28acde26121cd111428121589_full.jpg" controls>
-                            <source src="//streamtape.com/get_video?id=xoYZXJy7WYIkbew&expires=1626358816&ip=DxEsEHOnDS9X&token=rsOktAGUdEoz&stream=1" scrlang="de" type="video/mp4" />
+                    <div class="anime__video__player" style="height: 491px">
+                        <video id="player" playsinline controls controls>
+                            <source src="<?php if(isset($Ep['Link'])) { echo $Ep['Link']; } ?>" scrlang="de" type="video/mp4" />
                             <!-- Captions are optional -->
                         </video>
                     </div>
+                    <?php 
+                        $lang = $conn->prepare("SELECT * FROM Lang ORDER BY LangId ASC");
+                        $lang->execute();
+                    
+                        $lang = $lang->fetchAll();
+
+                        foreach ($lang as $ln) {
+                            $eps = $conn->prepare("SELECT * FROM Episoden WHERE AnilistId = :aid AND Lang = :lang  ORDER BY Episode ASC");
+                            $eps->bindParam(':aid', $params[2]);
+                            $eps->bindParam(':lang', $ln['LangId']);
+                            $eps->execute();
+                        
+                            $episode = $eps->fetchAll();
+
+                            if(isset($episode[0])){
+                                echo '<div class="anime__details__episodes">';
+                                echo '<div class="section-title">';
+                                echo '<h5>'.$ln['LangKey'].'</h5>';
+                                echo '</div>';
+
+                                foreach ($episode as $ep) {
+                                    $epN;
+                                    if($ep['Episode'] >= 10) {
+                                        $epN = $ep['Episode'];
+                                    } else {
+                                        $epN = '0'.$ep['Episode'];
+                                    }
+                                    echo '<a id="ep'.$ep['Episode'].'" href="/anime/'.$params[2].'/episode/'.$ep['Episode'].'/'.$ln['LangKey'].'">EP '.$epN.'</a>';
+
+                                }
+
+                                echo '</div>';
+                            }
+                        }
+                    
+                    ?>
+                    <!--
                     <div class="anime__details__episodes">
                         <div class="section-title">
                             <h5>List Name</h5>
@@ -141,6 +244,7 @@
                         <a href="#">Ep 23</a>
                         <a href="#">Ep 24</a>
                     </div>
+                    -->
                 </div>
             </div>
             <div class="row">
