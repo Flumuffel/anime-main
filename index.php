@@ -5,7 +5,7 @@
   #split the path by '/'
   $params = explode("/", $request);
 
-  $safe_pages = array("home", "anime");
+  $safe_pages = array("home", "anime", "search");
    
   if(in_array($params[1], $safe_pages)) {
     switch($params[1]) {

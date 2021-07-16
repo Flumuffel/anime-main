@@ -38,7 +38,7 @@
     $('.set-bg').each(function () {
         var bg = $(this).data('setbg');
         $(this).css('background-image', 'url(' + bg + ')');
-    });
+    }, 200);
 
     setTimeout(function() {
         $('.toast').toast('show')

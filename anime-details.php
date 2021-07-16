@@ -1,8 +1,30 @@
 <?php
-    include(__dir__.'/search/search_code.php');
+    include(__dir__.'/inc/search/search_code.php');
 
     if ($params[2] == null) {
         header('Location: /home');
+    }
+
+    require 'config.php';
+
+    $stmt = $conn->prepare("SELECT * FROM Episoden WHERE AnilistId = :aid ORDER BY Episode ASC, Lang ASC");
+    $stmt->bindParam(':aid', $params[2]);
+    $stmt->execute();
+    $episode = $stmt->fetchAll();
+
+    
+
+    $foundEp = false;
+    $EpFirst = false;
+    $NoEpMatch = true;
+    $Ep = [];
+
+    foreach ($episode as $ep) {
+        
+        if(!$EpFirst) {
+            $EpFirst = $ep;
+            $foundEp = true;
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -56,7 +78,16 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Home</a>
-                        <a href="/anime">Anime</a>
+                        <?php 
+                            if(isset($_SERVER['HTTP_REFERER'])){
+                                $url = explode("/", $_SERVER['HTTP_REFERER']);
+                                if($url[3] == "search") {
+                                    echo '<a href="/search/'.$url[4].'">Search</a>';
+                                }
+                            } else {
+                                echo '<a>Anime</a>';
+                            }
+                        ?>
                         <span><?php echo $params[2] ?></span>
                     </div>
                 </div>
@@ -66,12 +97,12 @@
     <!-- Breadcrumb End -->
 
     <!-- Trailer Start -->
-    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background: #0b0c2a">
                 <div class="modal-header" style="border-bottom: 0;">
                     <h5 class="modal-title" style="color: white; font-weight: 800; font-size: 25px">Trailer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
@@ -79,7 +110,7 @@
                         <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
                     <div class="modal-footer" style="border-top: 0;">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">Close</button>
                 </div>
             </div>
         </div>
@@ -142,9 +173,11 @@
                             <div class="anime__details__btn">
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
                                 <a id="trailerBtn" href="" class="follow-btn" data-toggle="modal" data-target=".bd-trailer-lg">Trailer</a>
+                                <?php if(!$foundEp && $NoEpMatch) { goto noEps; }?>
                                 <a href="/anime/<?php echo str_replace('+', ' ', $params[2]); ?>/episode/1" class="watch-btn"><span>Watch Now</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
+                                <?php noEps: ?>
                             </div>
                         </div>
                     </div>
@@ -261,7 +294,7 @@
         <!-- Footer Section End -->
 
         <!-- Search model Begin -->
-          <?php include(__dir__.'/search/search_html.php'); ?>
+          <?php include(__dir__.'/inc/search/search_html.php'); ?>
         <!-- Search model end -->
 
         <!-- Js Plugins -->
