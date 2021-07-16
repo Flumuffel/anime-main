@@ -577,8 +577,9 @@ function showEpisode(query, id) {
             }
 
             // Episode
-            var ep = '#ep'+parseInt($('.breadcrumb__links > span')[0].innerHTML)
+            var ep = '#ep'+parseInt($('.breadcrumb__links > span')[0].innerHTML)+''+$('#lang')[0].value
             // Set Current Ep
+            console.log(ep)
             $(ep)[0].setAttribute("style", "background: #ffa500ab")
 
             // Title

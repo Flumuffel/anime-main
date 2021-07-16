@@ -148,6 +148,8 @@
     <!-- ID: HIDDEN -->
     <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
 
+    <!-- LANG: HIDDEN -->
+    <input id="lang" value="<?php echo $params[5]; ?>" type="hidden"></input>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
@@ -205,7 +207,7 @@
                                     } else {
                                         $epN = '0'.$ep['Episode'];
                                     }
-                                    echo '<a id="ep'.$ep['Episode'].'" href="/anime/'.$params[2].'/episode/'.$ep['Episode'].'/'.$ln['LangKey'].'">EP '.$epN.'</a>';
+                                    echo '<a id="ep'.$ep['Episode'].''.$ln['LangKey'].'" href="/anime/'.$params[2].'/episode/'.$ep['Episode'].'/'.$ln['LangKey'].'">EP '.$epN.'</a>';
 
                                 }
 
