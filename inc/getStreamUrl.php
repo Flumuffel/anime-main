@@ -1,5 +1,11 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
     $test = file_get_contents($Ep['Link']);
+
+	$test = preg_replace('/<script.*src="((?!(http:|https:)..vupload).*)"><.script>/', 'lol', $test);
+    $test = preg_replace('/<script.*src="..pictures.*"><.script>/', 'lol2', $test);
 
     echo $test;
 ?>
@@ -14,6 +20,7 @@
     $('.plyr__video-wrapper > #player > source')[0].setAttribute("src", link)
     $('.middle > button')[0].click();
     $('#deleteStreamGet').remove();
+    $("iframe").remove();
     $('#player')[0].load();
     }, 100);
 </script>
