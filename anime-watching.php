@@ -178,7 +178,7 @@
                         <?php include('inc/getStreamUrl.php'); ?>
                     </div>
                     <div class="anime__video__player" style="height: 491px">
-                        <video id="player" playsinline controls controls>
+                        <video id="player" playsinline controls controls preload="auto">
                             <source src="" scrlang="de" type="video/mp4" />
                             <!-- Captions are optional -->
                         </video>
