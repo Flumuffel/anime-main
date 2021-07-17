@@ -174,9 +174,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+                    <div id="deleteStreamGet" style="display: none">
+                        <?php include('inc/getStreamUrl.php'); ?>
+                    </div>
                     <div class="anime__video__player" style="height: 491px">
                         <video id="player" playsinline controls controls>
-                            <source src="<?php if(isset($Ep['Link'])) { echo $Ep['Link']; } ?>" scrlang="de" type="video/mp4" />
+                            <source src="" scrlang="de" type="video/mp4" />
                             <!-- Captions are optional -->
                         </video>
                     </div>

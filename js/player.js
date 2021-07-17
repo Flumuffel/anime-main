@@ -1314,6 +1314,7 @@ typeof navigator === "object" && (function (global, factory) {
           triggerEvent.call(player, player.media, 'qualitychange', false, {
             quality: input
           });
+          
         }
       });
     },
