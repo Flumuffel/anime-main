@@ -177,6 +177,11 @@
                     <div id="deleteStreamGet" style="display: none">
                         <?php include('inc/getStreamUrl.php'); ?>
                     </div>
+                    <div id="RefreshEmbed">
+                        <div class="anime__details__episodes" style="margin-bottom: 0; text-align: right;">
+                            <a style="margin-right: 0; background: blueviolet; color: white;" onclick="$('#player')[0].load();">Refresh Player</a>
+                        </div>
+                    </div>
                     <div class="anime__video__player" style="height: 491px">
                         <video id="player" playsinline controls controls preload="auto">
                             <source src="" scrlang="de" type="video/mp4" />
