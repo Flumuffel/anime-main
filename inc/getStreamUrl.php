@@ -19,6 +19,7 @@ error_reporting(E_ALL);
     $('<input id="link" type="hidden">').val(link).appendTo('body'); 
     
     $('.plyr__video-wrapper > #player > source')[0].setAttribute("src", link)
+    $('#download')[0].setAttribute("src", link)
     
     $('#deleteStreamGet').remove();
     $('.middle > button')[0].click();
