@@ -591,6 +591,7 @@ function showEpisode(query, id) {
 
                 // Title
                 $('.breadcrumb__links > a')[2].innerHTML = anime.title.english
+                $('#download')[0].setAttribute("download", anime.title.english)
 
                 if($("script[src^='/cdn-cgi/']")){
                     $("script[src^='/cdn-cgi/']").remove();
