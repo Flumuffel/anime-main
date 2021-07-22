@@ -179,6 +179,7 @@
                     </div>
                     <div id="RefreshEmbed">
                         <div class="anime__details__episodes" style="margin-bottom: 0; text-align: right;">
+                            <a id="download" style="margin-right: 0; background: orange; color: white;">Download Episode</a>
                             <a style="margin-right: 0; background: blueviolet; color: white;" onclick="$('#player')[0].load();">Refresh Player</a>
                         </div>
                     </div>
