@@ -2799,6 +2799,18 @@ typeof navigator === "object" && (function (global, factory) {
         class: 'plyr__controls__item'
       }; // Loop through controls in order
 
+      console.log(this.config.controls)
+      this.config.controls = ['play-large', /* 'restart',*/
+      'rewind',
+      'play', 'fast-forward',
+      'progress', 'current-time', /*'duration',*/
+      'mute', 'volume', 'captions', 'settings', /* 'download',*/
+      'fullscreen']
+
+      console.log(this.config.controls)
+
+      "play-large", "play", "progress", "current-time", "mute", "captions", "settings", "fullscreen"
+
       dedupe(is$1.array(this.config.controls) ? this.config.controls : []).forEach(function (control) {
         // Restart button
         if (control === 'restart') {
@@ -2807,11 +2819,13 @@ typeof navigator === "object" && (function (global, factory) {
 
 
         if (control === 'rewind') {
+          console.warn("REWIND ADDED!")
           container.appendChild(createButton.call(_this10, 'rewind', defaultAttributes));
         } // Play/Pause button
 
 
         if (control === 'play') {
+          console.warn("PLAY BUTTON ADDED!")
           container.appendChild(createButton.call(_this10, 'play', defaultAttributes));
         } // Fast forward button
 
@@ -3621,7 +3635,7 @@ typeof navigator === "object" && (function (global, factory) {
     // Logging to console
     debug: false,
     // Auto play (if supported)
-    autoplay: false,
+    autoplay: true,
     // Only allow one media playing at once (vimeo only)
     autopause: true,
     // Allow inline playback on iOS (this effects YouTube/Vimeo - HTML5 requires the attribute present)
@@ -3647,11 +3661,11 @@ typeof navigator === "object" && (function (global, factory) {
     // Click video container to play/pause
     clickToPlay: true,
     // Auto hide the controls
-    hideControls: true,
+    hideControls: false,
     // Reset to start when playback ended
     resetOnEnd: false,
     // Disable the standard context menu
-    disableContextMenu: true,
+    disableContextMenu: false,
     // Sprite (for icons)
     loadSprite: true,
     iconPrefix: 'plyr',
@@ -3714,11 +3728,11 @@ typeof navigator === "object" && (function (global, factory) {
       key: 'plyr'
     },
     // Default controls
-    controls: ['play-large', // 'restart',
-    // 'rewind',
-    'play', // 'fast-forward',
-    'progress', 'current-time', // 'duration',
-    'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', // 'download',
+    controls: ['play-large', /* 'restart',*/
+    'rewind',
+    'play', 'fast-forward',
+    'progress', 'current-time', /* 'duration',*/
+    'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', /* 'download',*/
     'fullscreen'],
     settings: ['captions', 'quality', 'speed'],
     // Localisation
