@@ -17,7 +17,9 @@
     $(window).on('load', function () {
         $(".loader").fadeOut();
         $("#preloder").delay(550).fadeOut("slow");
-        $('#player').delay(1000)[0].load();
+        setTimeout(function() {
+            $('#player')[0].load();
+        }, 500)
 
         /*------------------
             FIlter
