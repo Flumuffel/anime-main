@@ -14,12 +14,12 @@
     /*------------------
         Preloader
     --------------------*/
+    setTimeout(function() {
+        $('#player')[0].load();
+    }, 500)
     $(window).on('load', function () {
         $(".loader").fadeOut();
         $("#preloder").delay(550).fadeOut("slow");
-        setTimeout(function() {
-            $('#player')[0].load();
-        }, 500)
 
         /*------------------
             FIlter

@@ -97,7 +97,7 @@
     <!-- Breadcrumb End -->
 
     <!-- Trailer Start -->
-    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
+    <div id="trailerModal" class="modal fade bd-trailer-lg" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background: #0b0c2a">
                 <div class="modal-header" style="border-bottom: 0;">
@@ -110,12 +110,38 @@
                         <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
                     </div>
                     <div class="modal-footer" style="border-top: 0;">
+                    <!-- <button id="share" class="btn btn-secondary">Teilen</button> -->
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">Close</button>
                 </div>
             </div>
         </div>
+        <script>
+            setTimeout(function() {
+                $('#trailerModal')[0].onclick = function () {
+                    var targets = document.querySelectorAll( ":hover" );
+                    if(targets[3] == undefined && targets[targets.length -1].tagName != "BUTTON") {
+                        $('#trailerStream').attr('src', $('#trailerStream').attr('src'));
+                    }
+                }
+            }, 500)
+        </script>
     </div>
     <!-- Trailer End-->
+
+    <?php 
+        if(isset($params[3]) && $params[3] == "Trailer") {} else {
+            goto noTrailerOpen;
+        }
+    ?>
+
+    <script>
+        window.history.pushState({}, document.title, "/anime/<?php echo $params[2]; ?>/");
+        setTimeout(function() {
+            $('#trailerModal').modal("show")
+        }, 500)
+    </script>
+
+    <?php noTrailerOpen: ?>
 
     <!-- Anime Section Begin -->
     <section class="anime-details spad set-query" data-setquery="showDetails">
