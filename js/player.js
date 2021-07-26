@@ -3699,7 +3699,7 @@ typeof navigator === "object" && (function (global, factory) {
     },
     // Display tooltips
     tooltips: {
-      controls: false,
+      controls: true,
       seek: true
     },
     // Captions settings
