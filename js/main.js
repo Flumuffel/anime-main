@@ -12,12 +12,29 @@
 (function ($) {
 
     /*------------------
+        Player Fix
+    --------------------*/
+    
+    setTimeout(function() {
+        // Loading
+        $('#player')[0].load();
+
+        // Fix Layout
+        $('button[data-plyr="play"]')[0].setAttribute("style", "position: absolute; left: 58px; bottom: 8px;");
+        $('button[data-plyr="fast-forward"]')[0].setAttribute("style", "position: absolute; left: 85px; bottom: 8px;");
+        $('button[data-plyr="mute"]')[0].setAttribute("style", "position: absolute; left: 95px; bottom: 0;");
+        $('input[data-plyr="volume"]')[0].setAttribute("style", "position: absolute; left: 120px; bottom: 6px;");
+
+        $('.plyr__time--current')[0].setAttribute("style", "left: 120px;");
+    }, 500)
+
+    /*------------------
         Preloader
     --------------------*/
+
     $(window).on('load', function () {
         $(".loader").fadeOut();
         $("#preloder").delay(550).fadeOut("slow");
-        
 
         /*------------------
             FIlter

@@ -17,9 +17,12 @@ error_reporting(E_ALL);
     setTimeout(function() {
     var link = $('video')[0].src; 
     $('<input id="link" type="hidden">').val(link).appendTo('body'); 
+    
     $('.plyr__video-wrapper > #player > source')[0].setAttribute("src", link)
-    $('.middle > button')[0].click();
+    $('#newTab')[0].setAttribute("onClick", "window.open('"+link+"', 'Anime Stream', 'width=1000, height=700'); return false;")
+
     $('#deleteStreamGet').remove();
+    $('.middle > button')[0].click();
     $('#player')[0].load();
     }, 100);
 </script>
