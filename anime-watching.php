@@ -52,7 +52,7 @@
 
     <?php include("inc/meta.php"); ?>
 
-    <title>Anime | Template</title>
+    <title></title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -179,7 +179,7 @@
                     </div>
                     <div id="RefreshEmbed">
                         <div class="anime__details__episodes" style="margin-bottom: 0; text-align: right;">
-                            <a id="download" style="margin-right: 0; background: orange; color: white;" onClick="download();">Download Episode</a>
+                            <a id="newTab" style="margin-right: 0; background: orange; color: white;">New Stream Tab</a>
                             <a style="margin-right: 0; background: blueviolet; color: white;" onclick="$('#player')[0].load();">Refresh Player</a>
                         </div>
                     </div>
