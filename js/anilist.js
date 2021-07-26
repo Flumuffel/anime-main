@@ -74,7 +74,7 @@ function capitalizeFirstLetter(string) {
             }
         }
         
-        $('.set-query').each(function () {
+        $('.set-query').each(function (test) {
             var setquery = $(this).data('setquery')
             var option = options[setquery];
 
@@ -96,6 +96,10 @@ function capitalizeFirstLetter(string) {
                 break;
                 case 'showSearch':
                     showAnime(option.query, option.input, 16, $('#search')[0].value)
+                    $('#search').change( function() {
+                        $(option.input).empty()
+                        showAnime(option.query, option.input, 16, $('#search')[0].value)
+                    })
                 break;
                 case 'showEpisode':
                     showEpisode(option.query, $('#anilistId')[0].value)

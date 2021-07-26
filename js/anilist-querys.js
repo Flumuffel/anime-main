@@ -302,7 +302,6 @@ function showAnime(query, choose, show, search) {
                 var watches = 0
                 anime.stats.statusDistribution.every(stat => {
                     watches += stat.amount
-                    console.log(watches)
                     return true
                 })
 
@@ -326,8 +325,16 @@ function showAnime(query, choose, show, search) {
                 meta.appendChild(mtags)
 
                 // Title
+                var url=document.URL;
+                var changeTitle=url.split('/');
+                console.log(changeTitle)
+
                 let title = document.createElement('h5')
-                title.innerHTML = '<a href="/anime/' + anime.id + '">' + anime.title.english + '</a>'
+                if(changeTitle[3] == "panel"){
+                    title.innerHTML = '<a href="/panel/' + anime.id + '">' + anime.title.english + '</a>'
+                } else {
+                    title.innerHTML = '<a href="/anime/' + anime.id + '">' + anime.title.english + '</a>'
+                }
                 meta.appendChild(title)
 
                 choose.appendChild(newPopular)
@@ -337,6 +344,10 @@ function showAnime(query, choose, show, search) {
             }
             return true
         })
+        $('.set-bg').each(function () {
+            var bg = $(this).data('setbg');
+            $(this).css('background-image', 'url(' + bg + ')');
+        });
     })
 }
 

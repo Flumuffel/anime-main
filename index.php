@@ -5,7 +5,7 @@
   #split the path by '/'
   $params = explode("/", $request);
 
-  $safe_pages = array("home", "anime", "search");
+  $safe_pages = array("home", "anime", "search", "panel");
    
   if(in_array($params[1], $safe_pages)) {
     switch($params[1]) {
@@ -14,6 +14,13 @@
           include('anime-watching.php');
         } else {
           include('anime-details.php');
+        }
+        break;
+      case 'panel':
+        if(isset($params[2])){
+          include('admin/panel-details.php');
+        } else {
+          include('admin/panel-search.php');
         }
         break;
       default:
