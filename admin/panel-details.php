@@ -390,7 +390,7 @@
                                 if(lEp != "" && lLink != "" && lLang != 0) {
                                     console.log("[Update Episode] Ep:"+lEp+" / Link: https://vupload.com/"+lLink+" / Lang: "+lLang)
                                     console.warn('update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
-                                    fetch('update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
+                                    fetch('<?php echo $params[2]; ?>/update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
                                 }
                             }
                             episode[i] = null;
@@ -423,7 +423,7 @@
 
                             if(lEp != "" && lLink != "" && lLang != 0) {
                                 console.log("[Added Episode] Ep:"+lEp+" / Link: https://vupload.com/"+lLink+" / Lang: "+lLang)
-                                fetch('add/'+lEp+"/"+lLink+"/"+lLang)
+                                fetch('<?php echo $params[2]; ?>/add/'+lEp+"/"+lLink+"/"+lLang)
                             }
                         }
                     } else {
@@ -434,7 +434,7 @@
 
                 for (let i = 0; i < episode.length; i++) {
                     if(episode[i]){
-                        fetch('delete/'+episode[i].Episode+"/"+episode[i].Lang)
+                        fetch('<?php echo $params[2]; ?>/delete/'+episode[i].Episode+"/"+episode[i].Lang)
                         console.log("[Delete Episode] Ep:"+episode[i].Episode+" / Link: "+episode[i].Link+" / Lang: "+episode[i].Lang)
                     }
                 };
