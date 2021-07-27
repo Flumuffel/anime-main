@@ -5,8 +5,7 @@
   #split the path by '/'
   $params = explode("/", $request);
 
-  $safe_pages = array("home", "anime", "search", "panel");
-   
+  $safe_pages = array("home", "anime", "search", "panel", "login");
   if(in_array($params[1], $safe_pages)) {
     switch($params[1]) {
       case 'anime':
@@ -22,7 +21,10 @@
         } else {
           include('admin/panel-search.php');
         }
-        break;
+      break;
+      case 'login':
+        header("Location: login.php");
+      break;
       default:
         include($params[1].".php");
     }
