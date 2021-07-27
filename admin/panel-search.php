@@ -101,7 +101,7 @@
     <!-- Notification End -->
 
     <!-- SEARCH INPUT Begin -->
-    <input id="search" type="hidden" value="<?php echo str_replace("+", " ", $params[2]); ?>">
+    <input id="search" type="hidden" value="">
     <!-- SEARCH INPUT End -->
 
     <!-- Product Section Begin -->

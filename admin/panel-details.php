@@ -7,10 +7,31 @@
 
     require 'config.php';
 
+    if(isset($params[3])) {
+        switch($params[3]) {
+            case 'add':
+                if(!isset($params[4]) || !isset($params[5]) || !isset($params[6])) die("Es wurden nicht alle Parameter angegeben!");
+                $stmt = $conn->prepare("INSERT INTO Episoden (AnilistId, Episode, Lang, Link) VALUES (".$params[2].", ".$params[4].", ".$params[6].", 'https://vupload.com/".$params[5]."') ON DUPLICATE KEY UPDATE AnilistId = ".$params[2].", Episode = ".$params[4].", Lang = ".$params[6].", Link = 'https://vupload.com/".$params[5]."'");
+                $stmt->execute();
+            break;
+            case 'update':
+                if( !isset($params[4]) || !isset($params[5]) || !isset($params[6]) || !isset($params[7]) || !isset($params[8])) die("Es wurden nicht alle Parameter angegeben!");
+                $stmt = $conn->prepare("UPDATE Episoden SET Episode = ".$params[4].", Lang = ".$params[6].", Link = 'https://vupload.com/".$params[5]."' WHERE AnilistId = ".$params[2]." AND Episode = ".$params[7]." AND Lang = ".$params[8]);
+                $stmt->execute();
+            break;
+            case 'delete':
+                if(!isset($params[4]) || !isset($params[5])) die("Es wurden nicht alle Parameter angegeben!");
+                $stmt = $conn->prepare("DELETE FROM Episoden WHERE AnilistId = ".$params[2]." AND Episode = ".$params[4]." AND Lang = ".$params[5]);
+                $stmt->execute();
+            break;
+        }
+    }
+
     $stmt = $conn->prepare("SELECT * FROM Episoden WHERE AnilistId = :aid ORDER BY Lang ASC, Episode ASC");
     $stmt->bindParam(':aid', $params[2]);
     $stmt->execute();
     $episode = $stmt->fetchAll();
+    $AllEp = $episode;
 
     $stmt = $conn->prepare("SELECT * FROM Lang ORDER BY LangId ASC");
     $stmt->execute();
@@ -212,7 +233,8 @@
         <!-- Stream Link Start -->
         <section class="anime-details spad container">
             <div class="search-model-form" style="height: 50px; display: block; text-align: right;">
-                <button class="btn btn-success" style="margin-right: 0;" onclick="test()">New</button>
+                <button class="btn btn-success" style="margin-right: 0;" onclick="add()">New</button>
+                <button class="btn btn-info" style="margin-right: 0;" onclick="update()">Save</button>
             </div>
             <div class="d-flex align-items-center justify-content-center search-model-form">
                 <table class="table" style="color: white;">
@@ -229,8 +251,8 @@
                             if($foundEp == true) {
                                 foreach ($episode as $ep) { 
                                     echo '<tr>';
-                                    echo '<th scope="row"><input style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr." value="'.$ep['Episode'].'"></th>';
-                                    echo '<td><input style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link" value="'.$ep['Link'].'"></td>';
+                                    echo '<th scope="row"><input name="Episode" style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr." value="'.$ep['Episode'].'"></th>';
+                                    echo '<td><input name="Link" style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link" value="'.$ep['Link'].'"></td>';
                                     echo '<td style="color: black;"><select id="lang">';
                                         foreach ($lang as $ln) {
                                             if($ln['LangId'] == $ep['Lang']) {
@@ -241,7 +263,7 @@
                                         }
                                     echo '</select></td>';
                                     echo '<td class="align-items-center justify-content-center">
-                                        <button class="btn btn-danger col-lg" onclick="$(this).parent().parent().remove()">Remove</button>
+                                        <button class="btn btn-danger col-lg" onclick="$(this).parent().parent().html(\'\')">Remove</button>
                                     </td>';
                                     echo '</tr>';
                                 }
@@ -255,7 +277,7 @@
                                     }
                                 echo '</select></td>';
                                 echo '<td class="align-items-center justify-content-center">
-                                    <button class="btn btn-danger col-lg" onclick="$(this).parent().parent().remove()">Remove</button>
+                                    <button class="btn btn-danger col-lg" onclick="$(this).parent().parent().html(\'\')">Remove</button>
                                 </td>';
                                 echo '</tr>';
                             }
@@ -273,16 +295,16 @@
             </div>
         </section>
         <script>
-            function test() {
+            function add() {
                 var tr = document.createElement("tr");
 
                 var th = document.createElement("th");
                 th.scope = "row"
-                th.innerHTML = '<input style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr.">';
+                th.innerHTML = '<input name="Episode" style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr.">';
                 tr.appendChild(th)
 
                 var t1 = document.createElement("td");
-                t1.innerHTML = '<input style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link">';
+                t1.innerHTML = '<input name="Link" style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link">';
                 tr.appendChild(t1)
 
                 <?php 
@@ -330,18 +352,93 @@
                 */
             }
 
-            /*
-            setTimeout(function() {
-                $('input').on('change', function(input) {
-                    console.log($(input.target).parent().parent().find('#dataId')[0].value)
-                })
-                $('.current').on('DOMSubtreeModified', function(input) { 
-                    if($(input.target)[0].innerHTML != "") {
-                        console.log("Changed Input: "+$(input.target)[0].innerHTML)
+            function update() {
+                var episode = <?php echo json_encode($AllEp); ?>;
+                var lang = <?php echo json_encode($lang); ?>;
+                var localEp = $('tbody > tr');
+                
+                localEp.each(function(i) {
+                    if($(this).find('input[name="Episode"]')[0]) {
+                        if(episode[i] && episode[i].Episode == $(this).find('input[name="Episode"]')[0].value) {
+
+                            // Lang
+                            var lLang = 0
+                            for (let i = 0; i < lang.length; i++) {
+                                if(lang[i].LangKey == $(this).find('.current')[0].innerHTML) {
+                                    lLang = lang[i].LangId;
+                                }
+                            }
+
+                            if(episode[i].Episode != $(this).find('input[name="Episode"]')[0].value || episode[i].Link != $(this).find('input[name="Link"]')[0].value || episode[i].Lang != lLang) {
+                                var lEp = $(this).find('input[name="Episode"]')[0].value;
+                                var lLink = $(this).find('input[name="Link"]')[0].value;
+
+                                // Link
+                                var lLink = lLink.split("/")
+                                if(lLink[2] == "vupload.com"){
+                                    if(lLink.length == 4) {
+                                        lLink = lLink[3]
+                                    } else if(lLink.length == 5) {
+                                        lLink = lLink[4]
+                                    } else {
+                                        lLink = ""
+                                    }
+                                } else {
+                                    lLink = ""
+                                }
+
+                                if(lEp != "" && lLink != "" && lLang != 0) {
+                                    console.log("[Update Episode] Ep:"+lEp+" / Link: https://vupload.com/"+lLink+" / Lang: "+lLang)
+                                    console.warn('update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
+                                    fetch('update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
+                                }
+                            }
+                            episode[i] = null;
+                            
+                        } else {
+                            var lEp = $(this).find('input[name="Episode"]')[0].value;
+                            var lLink = $(this).find('input[name="Link"]')[0].value;
+
+                            // Lang
+                            var lLang = 0
+                            for (let i = 0; i < lang.length; i++) {
+                                if(lang[i].LangKey == $(this).find('.current')[0].innerHTML) {
+                                    lLang = lang[i].LangId;
+                                }
+                            }
+
+                            // Link
+                            var lLink = lLink.split("/")
+                            if(lLink[2] == "vupload.com"){
+                                if(lLink.length == 4) {
+                                    lLink = lLink[3]
+                                } else if(lLink.length == 5) {
+                                    lLink = lLink[4]
+                                } else {
+                                    lLink = ""
+                                }
+                            } else {
+                                lLink = ""
+                            }
+
+                            if(lEp != "" && lLink != "" && lLang != 0) {
+                                console.log("[Added Episode] Ep:"+lEp+" / Link: https://vupload.com/"+lLink+" / Lang: "+lLang)
+                                fetch('add/'+lEp+"/"+lLink+"/"+lLang)
+                            }
+                        }
+                    } else {
+                        console.log("Removed: " + episode[i].Episode)
+                        console.log(episode)
                     }
-                })
-            }, 500)
-            */
+                });
+
+                for (let i = 0; i < episode.length; i++) {
+                    if(episode[i]){
+                        fetch('delete/'+episode[i].Episode+"/"+episode[i].Lang)
+                        console.log("[Delete Episode] Ep:"+episode[i].Episode+" / Link: "+episode[i].Link+" / Lang: "+episode[i].Lang)
+                    }
+                };
+            }
         </script>
         <!-- Stream Link End -->
 
