@@ -269,8 +269,8 @@
                                 }
                             } else {
                                 echo '<tr>';
-                                echo '<th scope="row"><input style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr."></th>';
-                                echo '<td><input style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link"></td>';
+                                echo '<th scope="row"><input name="Episode" style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr."></th>';
+                                echo '<td><input name="Link" style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link"></td>';
                                 echo '<td style="color: black;"><select id="lang">';
                                     foreach ($lang as $ln) {
                                         echo '<option value="'.$ln['LangId'].'">'.$ln['LangKey'].'</option>';
