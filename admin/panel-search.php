@@ -1,5 +1,7 @@
 <?php
     include('inc/search/search_code.php');
+    
+    if($_SERVER['HTTP_HOST'] != "localhost" && !$_SERVER['HTTP_AUTHORIZATION']) header("Location: /login");
     /*
     if(!isset($params[2]) || $params[2] == "") {
         header('Location: /');
@@ -65,40 +67,6 @@
     }
     </script>
     <!-- Search HTML End-->
-
-    <!-- Notification Section Begin -->
-
-    <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 0; left: 0; min-height: 200px; z-index: 999999">
-        <!-- Position it -->
-        <div style="position: absolute; top: 80px; left: 15px; width: 340px">
-      
-          <!-- Then put toasts within -->
-          <?php 
-          if (explode(".", $_SERVER['HTTP_HOST'])[0] == "anime") {
-              goto noDev;
-          }
-          
-          ?>
-
-          <div class="toast" style="background: rgb(210 215 14 / 21%); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-            <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
-              <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
-              <small class="text-muted" style="color: white !important"><strong>Achtung!</strong></small>
-              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="toast-body">
-              <strong>Das ist die Dev umgebung!</strong>
-            </div>
-          </div>
-
-          <?php noDev: ?>
-
-        </div>
-      </div>
-
-    <!-- Notification End -->
 
     <!-- SEARCH INPUT Begin -->
     <input id="search" type="hidden" value="">
