@@ -1,0 +1,22 @@
+{
+    "name": "AniMe Beta",
+    "short_name": "AniMe",
+    "description": "AniMe ist eine Streaming Seite für Anime",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "scope": "/",
+    "start_url": "/",
+    "theme_color": "#e53637",
+    "background_color": "#0b0c2a",
+    "display": "standalone"
+}

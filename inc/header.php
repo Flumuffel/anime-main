@@ -32,7 +32,20 @@
                 <div class="col-lg-2">
                     <div class="header__right">
                         <a class="search-switch"><span class="icon_search"></span></a>
-                        <a href=""><span class="icon_profile"></span></a>
+                        <?php 
+                            if(isset($params[1]) && $params[1] == "anime") {
+                                if(isset($params[2])) {
+                                    echo '<a href="/panel/'.$params[2].'"><span class="icon_profile"></span></a>';
+                                }
+                            } else if (isset($params[1]) && $params[1] == "panel") {
+                                if(isset($params[2])) {
+                                    echo '<a href="/anime/'.$params[2].'"><span class="icon_profile"></span></a>';
+                                }
+                            } else {
+                                echo '<a href="/panel/"><span class="icon_profile"></span></a>';
+                            }
+                        ?>
+                        <!-- <a href=""><span class="icon_profile"></span></a> -->
                     </div>
                 </div>
             </div>
