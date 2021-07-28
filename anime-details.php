@@ -34,7 +34,7 @@
 
     <?php include("inc/meta.php"); ?>
 
-    <title>Anime</title>
+    <title>AniMe</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -85,7 +85,7 @@
                                     echo '<a href="/search/'.$url[4].'">Search</a>';
                                 }
                             } else {
-                                echo '<a>Anime</a>';
+                                echo '<a href="">Anime</a>';
                             }
                         ?>
                         <span><?php echo $params[2] ?></span>

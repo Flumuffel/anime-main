@@ -5,3 +5,10 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
  
 RewriteRule ^.*$ ./index.php
+
+<FilesMatch "login.php">
+    AuthName "Admin Panel"
+    AuthType Basic
+    AuthUserFile /home/users/flumuffel/files/.htpasswd
+    require valid-user
+</FilesMatch>

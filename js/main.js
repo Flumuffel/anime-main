@@ -29,10 +29,24 @@
     }, 500)
 
     /*------------------
+        Service Worker
+    --------------------*/
+    async function registerSw() {
+        if('serviceWorker' in navigator) {
+            try {
+                await navigator.serviceWorker.register('sw.js');
+            } catch (e) {
+                console.log(`SW registration failed`);
+            }
+        }
+    }
+
+    /*------------------
         Preloader
     --------------------*/
 
     $(window).on('load', function () {
+        registerSw();
         $(".loader").fadeOut();
         $("#preloder").delay(550).fadeOut("slow");
 

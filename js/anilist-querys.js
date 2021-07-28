@@ -425,6 +425,7 @@ function animeDetails(query, id) {
 
             // Title
             $('.anime__details__title h3')[0].innerHTML = anime.title.english     // Change Title
+            $('title')[0].innerHTML = "AniMe | " + anime.title.english
             $('.breadcrumb__links > span')[0].innerHTML = anime.title.english
             $('.anime__details__title span')[0].innerHTML = anime.title.native          // Japan Title
 

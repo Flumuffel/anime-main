@@ -37,10 +37,12 @@
             $EpFirst = $ep;
             $foundEp = true;
         }
-        if($params[4] == $ep['Episode'] && array_search($params[5], $KLang) == $ep['Lang']) {
-            $NoEpMatch = false;
-            $Ep = $ep;
-            break;
+        if(isset($params[5])) {
+            if($params[4] == $ep['Episode'] && array_search($params[5], $KLang) == $ep['Lang']) {
+                $NoEpMatch = false;
+                $Ep = $ep;
+                break;
+            }
         }
     }
 ?>
@@ -52,7 +54,7 @@
 
     <?php include("inc/meta.php"); ?>
 
-    <title></title>
+    <title>AniMe</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -85,7 +87,8 @@
     <?php include("inc/header.php"); ?>
 
     <!-- Header End -->
-      <?php    
+
+    <?php    
 
         if($foundEp && $NoEpMatch) {
             if(isset($_SERVER['HTTP_REFERER'])) {
@@ -113,7 +116,7 @@
     <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
 
     <!-- LANG: HIDDEN -->
-    <input id="lang" value="<?php echo $params[5]; ?>" type="hidden"></input>
+    <input id="lang" value="<?php if(isset($params[5])) echo $params[5]; ?>" type="hidden"></input>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
