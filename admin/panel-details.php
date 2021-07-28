@@ -1,6 +1,8 @@
 <?php
     include('inc/search/search_code.php');
 
+    if($_SERVER['HTTP_HOST'] != "localhost" && !$_SERVER['HTTP_AUTHORIZATION']) header("Location: /login");
+
     if ($params[2] == null) {
         header('Location: /panel');
     }
