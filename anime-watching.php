@@ -85,40 +85,6 @@
     <?php include("inc/header.php"); ?>
 
     <!-- Header End -->
-
-    <!-- Notification Section Begin -->
-
-    <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 0; left: 0; min-height: 200px; z-index: 999999">
-        <!-- Position it -->
-        <div style="position: absolute; top: 80px; left: 15px; width: 340px">
-      
-          <!-- Then put toasts within -->
-          <?php
-          if (!isset($_GET['noEpFound'])) {
-            $_GET['noEpFound'] = "";
-            goto EpFound;
-          }
-          ?>
-          <div class="toast" style="background: rgb(210 215 14 / 21%); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-            <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
-              <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
-              <small class="text-muted" style="color: white !important"><strong>Fehler</strong></small>
-              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="toast-body">
-              Die Episode <strong><?php echo $_GET['noEpFound'] ?></strong> gibt es  <span style="color: gray;">(noch)</span>  nicht! <br>
-            </div>
-          </div>
-          <script>
-              window.history.pushState({}, document.title, "/anime/<?php echo $params[2]; ?>/episode/<?php echo explode("?", $params[4])[0]; ?>");
-          </script>
-
-          <?php EpFound: ?>
-
-        </div>
-      </div>
       <?php    
 
         if($foundEp && $NoEpMatch) {
@@ -142,8 +108,6 @@
         }
         $episode = $episode[0];
       ?>
-
-    <!-- Notification End -->
 
     <!-- ID: HIDDEN -->
     <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>

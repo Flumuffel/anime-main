@@ -579,20 +579,22 @@ function showEpisode(query, id) {
                 }
                 */
 
-                // Thumpnail
-                if(anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] != undefined) {
-                    $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail + ') no-repeat center; background-size: contain;')
-                    $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
-                    setTimeout(function() {
-                        $('#player')[0].setAttribute("data-poster", anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail)
-                    }, 100)
-                } else {
-                    $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.bannerImage + ') ')
-                    $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
-                    setTimeout(function() {
-                        $('#player')[0].setAttribute("data-poster", anime.bannerImage)
-                    }, 100)
-                }
+                setTimeout(function() {
+                    // Thumpnail
+                    if(anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] != undefined) {
+                        $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail + ') no-repeat center; background-size: contain;')
+                        $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
+                        setTimeout(function() {
+                            $('#player')[0].setAttribute("data-poster", anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail)
+                        }, 100)
+                    } else {
+                        $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.bannerImage + ') ')
+                        $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
+                        setTimeout(function() {
+                            $('#player')[0].setAttribute("data-poster", anime.bannerImage)
+                        }, 100)
+                    }
+                }, 200);
                 
                 // Episode
                 var ep = '#ep'+parseInt($('.breadcrumb__links > span')[0].innerHTML)+''+$('#lang')[0].value
