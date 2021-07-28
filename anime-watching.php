@@ -37,11 +37,16 @@
             $EpFirst = $ep;
             $foundEp = true;
         }
-        if($params[4] == $ep['Episode'] && array_search($params[5], $KLang) == $ep['Lang']) {
-            $NoEpMatch = false;
-            $Ep = $ep;
-            break;
+        if(isset($params[5])) {
+            if($params[4] == $ep['Episode'] && array_search($params[5], $KLang) == $ep['Lang']) {
+                $NoEpMatch = false;
+                $Ep = $ep;
+                break;
+            }
         }
+    }
+    if($NoEpMatch == true) {
+        header("Location: /anime/".$params[2]."/episode/".$EpFirst['Episode']."/".$KLang[$EpFirst['Lang']]);
     }
 ?>
 
@@ -90,7 +95,7 @@
     <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
 
     <!-- LANG: HIDDEN -->
-    <input id="lang" value="<?php echo $params[5]; ?>" type="hidden"></input>
+    <input id="lang" value="<?php if(isset($params[5])) echo $params[5]; ?>" type="hidden"></input>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
