@@ -2,8 +2,8 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-    //$test = file_get_contents($Ep['Link']);
-    $test = file_get_contents("https://vupload.com/p74jwvo3nnho");
+    $test = file_get_contents($Ep['Link']);
+    //$test = file_get_contents("https://vupload.com/p74jwvo3nnho");
 
 	$test = preg_replace('/<script.*src="((?!(http:|https:)..vupload).*)"><.script>/', 'lol', $test);
     $test = preg_replace('/..pictures.*js/', 'lol2', $test);
