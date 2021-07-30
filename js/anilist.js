@@ -86,7 +86,7 @@ function capitalizeFirstLetter(string) {
             switch(setquery){
                 case 'popular':
                 case 'recent':
-                    showAnime(option.query, option.input, 8);
+                    showAnime(option.query, option.input, 12);
                 break;
                 case 'hero':
                     showHero(option.query, option.input, 5)
