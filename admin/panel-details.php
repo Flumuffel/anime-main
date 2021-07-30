@@ -26,6 +26,19 @@
                 $stmt = $conn->prepare("DELETE FROM Episoden WHERE AnilistId = ".$params[2]." AND Episode = ".$params[4]." AND Lang = ".$params[5]);
                 $stmt->execute();
             break;
+            case 'options':
+                if(!isset($params[4])) die("Es wurden nicht alle Parameter angegeben!");
+                switch($params[4]){
+                    case 'delete':
+                        $stmt = $conn->prepare("DELETE FROM Options WHERE AnilistId = ".$params[2]);
+                        $stmt->execute();
+                    break;
+                    default:
+                        $stmt = $conn->prepare("INSERT INTO Options (AnilistId, CoverBg) VALUES (".$params[2].", ".$params[4].") ON DUPLICATE KEY UPDATE AnilistId = ".$params[2].", CoverBg = ".$params[4]);
+                        $stmt->execute();
+                    break;
+                }
+            break;
         }
     }
 
@@ -53,6 +66,16 @@
             $foundEp = true;
         }
     }
+
+    $stmt = $conn->prepare("SELECT * FROM Options WHERE AnilistId = :aid");
+    $stmt->bindParam(':aid', $params[2]);
+    $stmt->execute();
+    $options = $stmt->fetchAll();
+    if(!empty($options)) {
+        $options = $options[0];
+    } else {
+        $options = null;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -66,7 +89,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
@@ -77,12 +100,15 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css" rel="stylesheet"/>
+
 </head>
 
 <body>
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/anilist-querys.js"></script>
     <script src="/js/anilist.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
 
     <!-- Page Preloder -->
     <div id="preloder">
@@ -90,7 +116,7 @@
     </div>
 
     <!-- Header Section Begin -->
-    
+
     <?php include("inc/header.php"); ?>
 
     <!-- Header End -->
@@ -116,7 +142,9 @@
                                 echo '<a>Anime</a>';
                             }
                         ?>
-                        <span><?php echo $params[2] ?></span>
+                        <span>
+                            <?php echo $params[2] ?>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -130,24 +158,29 @@
             <div class="modal-content" style="background: #0b0c2a">
                 <div class="modal-header" style="border-bottom: 0;">
                     <h5 class="modal-title" style="color: white; font-weight: 800; font-size: 25px">Trailer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe id="trailerStream" class="col-sm-12" height="550px" src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-                    </div>
-                    <div class="modal-footer" style="border-top: 0;">
+                </div>
+                <div class="modal-body">
+                    <iframe id="trailerStream" class="col-sm-12" height="550px"
+                        src="https://www.youtube.com/embed/bXCCKubabe0" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen=""></iframe>
+                </div>
+                <div class="modal-footer" style="border-top: 0;">
                     <!-- <button id="share" class="btn btn-secondary">Teilen</button> -->
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        onclick="$('#trailerStream').attr('src', $('#trailerStream').attr('src'));">Close</button>
                 </div>
             </div>
         </div>
         <script>
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#trailerModal')[0].onclick = function () {
-                    var targets = document.querySelectorAll( ":hover" );
-                    if(targets[3] == undefined && targets[targets.length -1].tagName != "BUTTON") {
+                    var targets = document.querySelectorAll(":hover");
+                    if (targets[3] == undefined && targets[targets.length - 1].tagName != "BUTTON") {
                         $('#trailerStream').attr('src', $('#trailerStream').attr('src'));
                     }
                 }
@@ -164,7 +197,7 @@
 
     <script>
         window.history.pushState({}, document.title, "/anime/<?php echo $params[2]; ?>/");
-        setTimeout(function() {
+        setTimeout(function () {
             $('#trailerModal').modal("show")
         }, 500)
     </script>
@@ -177,7 +210,8 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx15583-rTuRqDFTM1UZ.png">
+                        <div class="anime__details__pic set-bg"
+                            data-setbg="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx15583-rTuRqDFTM1UZ.png">
                             <div class="comment"> TV</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
                         </div>
@@ -201,7 +235,7 @@
                             <p>Every human inhabiting the world of Alcia is branded by a “Count” or a number written on
                                 their body. For Hina’s mother, her total drops to 0 and she’s pulled into the Abyss,
                                 never to be seen again. But her mother’s last words send Hina on a quest to find a
-                            legendary hero from the Waste War - the fabled Ace!</p>
+                                legendary hero from the Waste War - the fabled Ace!</p>
                             <div class="anime__details__widget">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 left">
@@ -226,38 +260,156 @@
                             </div>
                             <div class="anime__details__btn">
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
-                                <a id="trailerBtn" href="" class="follow-btn" data-toggle="modal" data-target=".bd-trailer-lg">Trailer</a>
+                                <a id="trailerBtn" href="" class="follow-btn" data-toggle="modal"
+                                    data-target=".bd-trailer-lg">Trailer</a>
                                 <?php if(!$foundEp && $NoEpMatch) { goto noEps; }?>
-                                <a href="/anime/<?php echo str_replace('+', ' ', $params[2]); ?>/episode/1" class="watch-btn"><span>Watch Now</span> <i
-                                    class="fa fa-angle-right"></i></a>
-                                </div>
-                                <?php noEps: ?>
+                                <a href="/anime/<?php echo str_replace('+', ' ', $params[2]); ?>/episode/1"
+                                    class="watch-btn"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
                             </div>
+                            <?php noEps: ?>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Anime Section End -->
+        </div>
+    </section>
+    <!-- Anime Section End -->
 
-        <!-- Stream Link Start -->
-        <section class="anime-details spad container">
-            <div class="search-model-form" style="height: 50px; display: block; text-align: right;">
-                <button class="btn btn-success" style="margin-right: 0;" onclick="add()">New</button>
-                <button class="btn btn-info" style="margin-right: 0;" onclick="update()">Save</button>
+    <!-- Stream Link Start -->
+    <style>
+        .form-check {
+            display: block;
+            min-height: 1.5rem;
+            padding-left: 1.5em;
+            margin-bottom: .125rem
+        }
+
+        .form-check .form-check-input {
+            float: left;
+            margin-left: -1.5em
+        }
+
+        .form-check-input {
+            width: 1em;
+            height: 1em;
+            margin-top: .25em;
+            vertical-align: top;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            border: 1px solid rgba(0, 0, 0, .25);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact
+        }
+
+        .form-check-input[type=checkbox] {
+            border-radius: .25em
+        }
+
+        .form-check-input[type=radio] {
+            border-radius: 50%
+        }
+
+        .form-check-input:active {
+            filter: brightness(90%)
+        }
+
+        .form-check-input:focus {
+            border-color: #86b7fe;
+            outline: 0;
+            box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+        }
+
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd
+        }
+
+        .form-check-input:checked[type=checkbox] {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e")
+        }
+
+        .form-check-input:checked[type=radio] {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")
+        }
+
+        .form-check-input[type=checkbox]:indeterminate {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")
+        }
+
+        .form-check-input:disabled {
+            pointer-events: none;
+            filter: none;
+            opacity: .5
+        }
+
+        .form-check-input:disabled~.form-check-label,
+        .form-check-input[disabled]~.form-check-label {
+            opacity: .5
+        }
+
+        .form-switch {
+            padding-left: 2.5em
+        }
+
+        .form-switch .form-check-input {
+            width: 2em;
+            margin-left: -2.5em;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");
+            background-position: left center;
+            border-radius: 2em;
+            transition: background-position .15s ease-in-out
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            .form-switch .form-check-input {
+                transition: none
+            }
+        }
+
+        .form-switch .form-check-input:focus {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2386b7fe'/%3e%3c/svg%3e")
+        }
+
+        .form-switch .form-check-input:checked {
+            background-position: right center;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")
+        }
+
+        .form-check-inline {
+            display: inline-block;
+            margin-right: 1rem
+        }
+    </style>
+    <section class="anime-details spad container">
+        <div class="search-model-form" style="height: 50px; display: block; text-align: right;">
+            <button class="btn btn-success" style="margin-right: 0;" onclick="add()">New</button>
+            <button class="btn btn-info" style="margin-right: 0;" onclick="update()">Save</button>
+        </div>
+        <div style="padding: 5px 25px; color: white;">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="CoverBg" <?php if(isset($options['CoverBg']) && $options['CoverBg'] == true) echo "checked"; ?>>
+                <label class="form-check-label" for="flexSwitchCheckDefault">Cover Background</label>
             </div>
-            <div class="d-flex align-items-center justify-content-center search-model-form">
-                <table class="table" style="color: white;">
-                    <thead>
-                        <tr>
+        </div>
+        <div class="d-flex align-items-center justify-content-center search-model-form">
+            <table class="table" style="color: white;">
+                <thead>
+                    <tr>
                         <th scope="col">Episode</th>
                         <th scope="col">Link</th>
                         <th scope="col">Lang</th>
                         <th scope="col">Option</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
                             if($foundEp == true) {
                                 foreach ($episode as $ep) { 
                                     echo '<tr>';
@@ -292,7 +444,7 @@
                                 echo '</tr>';
                             }
                         ?>
-                        <!--
+                    <!--
                         <tr>
                         <th scope="row">1</th>
                         <td>Mark</td>
@@ -300,129 +452,95 @@
                         <td>@mdo</td>
                         </tr>
                         -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-        <script>
-            function add() {
-                var tr = document.createElement("tr");
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <script>
+        function add() {
+            var tr = document.createElement("tr");
 
-                var th = document.createElement("th");
-                th.scope = "row"
-                th.innerHTML = '<input name="Episode" style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr.">';
-                tr.appendChild(th)
+            var th = document.createElement("th");
+            th.scope = "row"
+            th.innerHTML = '<input name="Episode" style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr.">';
+            tr.appendChild(th)
 
-                var t1 = document.createElement("td");
-                t1.innerHTML = '<input name="Link" style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link">';
-                tr.appendChild(t1)
+            var t1 = document.createElement("td");
+            t1.innerHTML = '<input name="Link" style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link">';
+            tr.appendChild(t1)
 
-                <?php 
-                $langT = "";
-                $count = 0; 
-                foreach ($lang as $ln) { 
-                    $count++; 
-                    if($count == 1){ 
-                        $langT = $langT . '<span class="current">'.$ln['LangKey'].'</span>'; 
-                        $langT = $langT . '<ul class="list">'; 
-                        $langT = $langT . '<li data-value="'.$ln['LangId'].'" class="option selected">'.$ln['LangKey'].'</li>'; 
-                    } else { 
-                        $langT = $langT . '<li data-value="'.$ln['LangId'].'" class="option">'.$ln['LangKey'].'</li>'; 
-                    } 
-                } 
-                $langT = $langT . '</ul>'
+            <?php 
+            $langT = "";
+            $count = 0;
+            foreach($lang as $ln) {
+                $count++;
+                if ($count == 1) {
+                    $langT = $langT. '<span class="current">'.$ln['LangKey'].'</span>';
+                    $langT = $langT. '<ul class="list">';
+                    $langT = $langT. '<li data-value="'.$ln['LangId'].'" class="option selected">'.$ln['LangKey'].'</li>';
+                } else {
+                    $langT = $langT. '<li data-value="'.$ln['LangId'].'" class="option">'.$ln['LangKey'].'</li>';
+                }
+            }
+            $langT = $langT. '</ul>'
                 ?>
 
                 var t2 = document.createElement("td");
-                t2.style = "color: black;";
-                t2.innerHTML = '<div class="nice-select" tabindex="0"><?php echo $langT; ?></div>';
-                tr.appendChild(t2)
+            t2.style = "color: black;";
+            t2.innerHTML = '<div class="nice-select" tabindex="0"><?php echo $langT; ?></div>';
+            tr.appendChild(t2)
 
-                var opt = document.createElement("td");
-                opt.className = "align-items-center justify-content-center";
-                opt.innerHTML = '<button class="btn btn-danger col-lg" onclick="$(this).parent().parent().remove()">Remove</button>';
-                tr.appendChild(opt)
+            var opt = document.createElement("td");
+            opt.className = "align-items-center justify-content-center";
+            opt.innerHTML = '<button class="btn btn-danger col-lg" onclick="$(this).parent().parent().remove()">Remove</button>';
+            tr.appendChild(opt)
 
-                $('tbody').append(tr)
+            $('tbody').append(tr)
 
-                console.log(tr)
-                /*
-                echo '<tr>';
-                echo '<th scope="row"><input style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr."></th>';
-                echo '<td><input style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link"></td>';
-                echo '<td style="color: black;"><select id="lang">';
-                    foreach ($lang as $ln) {
-                        echo '<option value="'.$ln['LangId'].'">'.$ln['LangKey'].'</option>';
-                    }
-                echo '</select></td>';
-                echo '<td class="align-items-center justify-content-center">
-                    <button class="btn btn-danger col-lg" onclick="$(this).parent().parent().remove()">Remove</button>
-                </td>';
-                echo '</tr>';
-                */
-            }
+            console.log(tr)
+            /*
+            echo '<tr>';
+            echo '<th scope="row"><input style="width: -webkit-fill-available; font-size: initial;" type="number" placeholder="Episode Nr."></th>';
+            echo '<td><input style="width: -webkit-fill-available; font-size: initial;" type="url" pattern="https://vupload.com/.*" placeholder="Link"></td>';
+            echo '<td style="color: black;"><select id="lang">';
+                foreach ($lang as $ln) {
+                    echo '<option value="'.$ln['LangId'].'">'.$ln['LangKey'].'</option>';
+                }
+            echo '</select></td>';
+            echo '<td class="align-items-center justify-content-center">
+                <button class="btn btn-danger col-lg" onclick="$(this).parent().parent().remove()">Remove</button>
+            </td>';
+            echo '</tr>';
+            */
+        }
 
-            function update() {
-                var episode = <?php echo json_encode($AllEp); ?>;
-                var lang = <?php echo json_encode($lang); ?>;
-                var localEp = $('tbody > tr');
-                
-                localEp.each(function(i) {
-                    if($(this).find('input[name="Episode"]')[0]) {
-                        if(episode[i] && episode[i].Episode == $(this).find('input[name="Episode"]')[0].value) {
+        function update() {
+            var episode = <?php echo json_encode($AllEp); ?>;
+            var lang = <?php echo json_encode($lang); ?>;
+            var localEp = $('tbody > tr');
 
-                            // Lang
-                            var lLang = 0
-                            for (let i = 0; i < lang.length; i++) {
-                                if(lang[i].LangKey == $(this).find('.current')[0].innerHTML) {
-                                    lLang = lang[i].LangId;
-                                }
+            localEp.each(function (i) {
+                if ($(this).find('input[name="Episode"]')[0]) {
+                    if (episode[i] && episode[i].Episode == $(this).find('input[name="Episode"]')[0].value) {
+
+                        // Lang
+                        var lLang = 0
+                        for (let i = 0; i < lang.length; i++) {
+                            if (lang[i].LangKey == $(this).find('.current')[0].innerHTML) {
+                                lLang = lang[i].LangId;
                             }
+                        }
 
-                            if(episode[i].Episode != $(this).find('input[name="Episode"]')[0].value || episode[i].Link != $(this).find('input[name="Link"]')[0].value || episode[i].Lang != lLang) {
-                                var lEp = $(this).find('input[name="Episode"]')[0].value;
-                                var lLink = $(this).find('input[name="Link"]')[0].value;
-
-                                // Link
-                                var lLink = lLink.split("/")
-                                if(lLink[2] == "vupload.com"){
-                                    if(lLink.length == 4) {
-                                        lLink = lLink[3]
-                                    } else if(lLink.length == 5) {
-                                        lLink = lLink[4]
-                                    } else {
-                                        lLink = ""
-                                    }
-                                } else {
-                                    lLink = ""
-                                }
-
-                                if(lEp != "" && lLink != "" && lLang != 0) {
-                                    console.log("[Update Episode] Ep:"+lEp+" / Link: https://vupload.com/"+lLink+" / Lang: "+lLang)
-                                    console.warn('update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
-                                    fetch('<?php echo $params[2]; ?>/update/'+lEp+"/"+lLink+"/"+lLang+"/"+episode[i].Episode+"/"+episode[i].Lang)
-                                }
-                            }
-                            episode[i] = null;
-                            
-                        } else {
+                        if (episode[i].Episode != $(this).find('input[name="Episode"]')[0].value || episode[i].Link != $(this).find('input[name="Link"]')[0].value || episode[i].Lang != lLang) {
                             var lEp = $(this).find('input[name="Episode"]')[0].value;
                             var lLink = $(this).find('input[name="Link"]')[0].value;
 
-                            // Lang
-                            var lLang = 0
-                            for (let i = 0; i < lang.length; i++) {
-                                if(lang[i].LangKey == $(this).find('.current')[0].innerHTML) {
-                                    lLang = lang[i].LangId;
-                                }
-                            }
-
                             // Link
                             var lLink = lLink.split("/")
-                            if(lLink[2] == "vupload.com"){
-                                if(lLink.length == 4) {
+                            if (lLink[2] == "vupload.com") {
+                                if (lLink.length == 4) {
                                     lLink = lLink[3]
-                                } else if(lLink.length == 5) {
+                                } else if (lLink.length == 5) {
                                     lLink = lLink[4]
                                 } else {
                                     lLink = ""
@@ -431,46 +549,96 @@
                                 lLink = ""
                             }
 
-                            if(lEp != "" && lLink != "" && lLang != 0) {
-                                console.log("[Added Episode] Ep:"+lEp+" / Link: https://vupload.com/"+lLink+" / Lang: "+lLang)
-                                fetch('<?php echo $params[2]; ?>/add/'+lEp+"/"+lLink+"/"+lLang)
+                            if (lEp != "" && lLink != "" && lLang != 0) {
+                                console.log("[Update Episode] Ep:" + lEp + " / Link: https://vupload.com/" + lLink + " / Lang: " + lLang)
+                                console.warn('update/' + lEp + "/" + lLink + "/" + lLang + "/" + episode[i].Episode + "/" + episode[i].Lang)
+                                fetch('<?php echo $params[2]; ?>/update/' + lEp + "/" + lLink + "/" + lLang + "/" + episode[i].Episode + "/" + episode[i].Lang)
                             }
                         }
+                        episode[i] = null;
+
                     } else {
-                        console.log("Removed: " + episode[i].Episode)
-                        console.log(episode)
+                        var lEp = $(this).find('input[name="Episode"]')[0].value;
+                        var lLink = $(this).find('input[name="Link"]')[0].value;
+
+                        // Lang
+                        var lLang = 0
+                        for (let i = 0; i < lang.length; i++) {
+                            if (lang[i].LangKey == $(this).find('.current')[0].innerHTML) {
+                                lLang = lang[i].LangId;
+                            }
+                        }
+
+                        // Link
+                        var lLink = lLink.split("/")
+                        if (lLink[2] == "vupload.com") {
+                            if (lLink.length == 4) {
+                                lLink = lLink[3]
+                            } else if (lLink.length == 5) {
+                                lLink = lLink[4]
+                            } else {
+                                lLink = ""
+                            }
+                        } else {
+                            lLink = ""
+                        }
+
+                        if (lEp != "" && lLink != "" && lLang != 0) {
+                            console.log("[Added Episode] Ep:" + lEp + " / Link: https://vupload.com/" + lLink + " / Lang: " + lLang)
+                            fetch('<?php echo $params[2]; ?>/add/' + lEp + "/" + lLink + "/" + lLang)
+                        }
                     }
-                });
+                } else {
+                    console.log("Removed: " + episode[i].Episode)
+                    console.log(episode)
+                }
+            });
 
-                for (let i = 0; i < episode.length; i++) {
-                    if(episode[i]){
-                        fetch('<?php echo $params[2]; ?>/delete/'+episode[i].Episode+"/"+episode[i].Lang)
-                        console.log("[Delete Episode] Ep:"+episode[i].Episode+" / Link: "+episode[i].Link+" / Lang: "+episode[i].Lang)
-                    }
-                };
-            }
-        </script>
-        <!-- Stream Link End -->
+            for (let i = 0; i < episode.length; i++) {
+                if (episode[i]) {
+                    fetch('<?php echo $params[2]; ?>/delete/' + episode[i].Episode + "/" + episode[i].Lang)
+                    console.log("[Delete Episode] Ep:" + episode[i].Episode + " / Link: " + episode[i].Link + " / Lang: " + episode[i].Lang)
+                }
+            };
 
-        <!-- Footer Section Begin -->
-        
-        <?php include("inc/footer.php"); ?>
+            // Options
+                // CoverBg
+                var CoverBg = $('#CoverBg').bootstrapSwitch('state');
+                Cb = "";
+                console.log(CoverBg)
+                if(CoverBg) {
+                    fetch('<?php echo $params[2]; ?>/options/'+CoverBg)
+                    Cb = "checked";
+                } else {
+                    console.log("Delete Options")
+                    fetch('<?php echo $params[2]; ?>/options/delete')
+                }
+                $('.form-check').prepend('<input class="form-check-input" type="checkbox" id="CoverBg" '+ Cb +'>');
+                $('.bootstrap-switch-on').remove();
+                $('.bootstrap-switch-off').remove();
+        }
+    </script>
+    <!-- Stream Link End -->
 
-        <!-- Footer Section End -->
+    <!-- Footer Section Begin -->
 
-        <!-- Search model Begin -->
-          <?php include('inc/search/search_html.php'); ?>
-        <!-- Search model end -->
+    <?php include("inc/footer.php"); ?>
 
-        <!-- Js Plugins -->
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/player.js"></script>
-        <script src="/js/jquery.nice-select.min.js"></script>
-        <script src="/js/mixitup.min.js"></script>
-        <script src="/js/jquery.slicknav.js"></script>
-        <script src="/js/owl.carousel.min.js"></script>
-        <script src="/js/main.js"></script>
+    <!-- Footer Section End -->
 
-    </body>
+    <!-- Search model Begin -->
+    <?php include('inc/search/search_html.php'); ?>
+    <!-- Search model end -->
 
-    </html>
+    <!-- Js Plugins -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/mixitup.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+
+</body>
+
+</html>

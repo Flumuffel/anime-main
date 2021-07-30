@@ -568,6 +568,7 @@ function showEpisode(query, id) {
                 history.back();
             }
             json.Page.media.every(anime => {
+                var options = JSON.parse($('#options')[0].value);
                 console.log(anime)
                 console.log("CHECK EPISODE: " + parseInt($('.breadcrumb__links > span')[0].innerHTML))
                 /*
@@ -582,14 +583,14 @@ function showEpisode(query, id) {
 
                 setTimeout(function() {
                     // Thumpnail
-                    if(anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] != undefined) {
+                    if(anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML)] != undefined && options.CoverBg != true) {
                         $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail + ') no-repeat center; background-size: contain;')
                         $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
                         setTimeout(function() {
                             $('#player')[0].setAttribute("data-poster", anime.streamingEpisodes[parseInt($('.breadcrumb__links > span')[0].innerHTML) -1].thumbnail)
                         }, 100)
                     } else {
-                        $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.bannerImage + ') ')
+                        $('.plyr__poster')[0].setAttribute('style', 'background: url(' + anime.bannerImage + '); background-size: cover;')
                         $('.anime__video__player > div')[0].className += ' plyr__poster-enabled'
                         setTimeout(function() {
                             $('#player')[0].setAttribute("data-poster", anime.bannerImage)

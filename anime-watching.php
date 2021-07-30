@@ -45,6 +45,17 @@
             }
         }
     }
+
+    $stmt = $conn->prepare("SELECT * FROM Options WHERE AnilistId = :aid");
+    $stmt->bindParam(':aid', $params[2]);
+    $stmt->execute();
+    $options = $stmt->fetchAll();
+
+    if(!empty($options)) {
+        $options = $options[0];
+    } else {
+        $options = "";
+    }
 ?>
 
 <!DOCTYPE html>
@@ -114,6 +125,9 @@
 
     <!-- ID: HIDDEN -->
     <input id="anilistId" value="<?php echo $params[2]; ?>" type="hidden"></input>
+
+    <!-- OPTIONS: HIDDEN -->
+    <input id="options" type="hidden" value='<?php echo json_encode($options); ?>'>
 
     <!-- LANG: HIDDEN -->
     <input id="lang" value="<?php if(isset($params[5])) echo $params[5]; ?>" type="hidden"></input>
