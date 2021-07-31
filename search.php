@@ -11,7 +11,7 @@
     
     <?php include("inc/meta.php"); ?>
 
-    <title>Anime | Search</title>
+    <title>AniMe | Search</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -44,57 +44,6 @@
     <?php include("inc/header.php"); ?>
 
     <!-- Header End -->
-
-    <!-- Notification Section Begin -->
-
-    <div aria-live="polite" aria-atomic="true" style="position: fixed; top: 0; left: 0; min-height: 200px; z-index: 999999">
-        <!-- Position it -->
-        <div style="position: absolute; top: 80px; left: 15px; width: 340px">
-      
-          <!-- Then put toasts within -->
-          <?php 
-          if (explode(".", $_SERVER['HTTP_HOST'])[0] == "anime") {
-              goto noDev;
-          }
-          
-          ?>
-
-          <div class="toast" style="background: rgb(210 215 14 / 21%); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-            <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
-              <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
-              <small class="text-muted" style="color: white !important"><strong>Achtung!</strong></small>
-              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="toast-body">
-              <strong>Das ist die Dev umgebung!</strong>
-            </div>
-          </div>
-
-          <?php noDev: ?>
-
-          <div class="toast" style="background: rgba(255,255,255,.1); color: white; font-size: 15px;" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-            <div class="toast-header" style="color: white; background: rgba(255,255,255,.08);">
-              <strong class="mr-auto">Ani<span style="color: #C72C31">me</span></strong>
-              <small class="text-muted" style="color: white !important"><strong>New release</strong></small>
-              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="toast-body">
-              Endlich ist es soweit! <br>
-              <strong>Tensei Shitara Slime Datta Ken 2nd Season Part 2</strong> wurde released! <br>
-              <div class="" style="z-index: 9999999">
-                  <a href="https://anilist.co/anime/116742" style="font-weight: 900;"><span>Mehr Infos</span> <i class="fa fa-angle-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    <!-- Notification End -->
 
     <!-- SEARCH INPUT Begin -->
     <input id="search" type="hidden" value="<?php echo str_replace("+", " ", $params[2]); ?>">
